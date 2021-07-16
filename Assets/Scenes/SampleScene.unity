@@ -424,7 +424,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1258586545}
         m_TargetAssemblyTypeName: TopDownController, Assembly-CSharp
-        m_MethodName: OnDash
+        m_MethodName: OnMove
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -434,7 +434,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_ActionId: 9f83dc1d-5915-4994-8834-924c33a0e93f
+    m_ActionId: 12fab6ae-5ee8-43e5-a693-f458156d4a87
     m_ActionName: Player/Dash[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 

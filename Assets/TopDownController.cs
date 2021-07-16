@@ -24,7 +24,8 @@ public enum InteractionState
 [RequireComponent(typeof(Rigidbody2D))]
 public class TopDownController : MonoBehaviour
 {
-    [SerializeField] private float speed = 10f;
+    [SerializeField] private float walkSpeed = 10f;
+    [SerializeField] private float sprintSpeed = 15f;
     [SerializeField] private float dashSpeed = 75f;
     [SerializeField] private float dashTime = 0.1f;
 
@@ -39,7 +40,6 @@ public class TopDownController : MonoBehaviour
 
 
     private Vector2 _moveDir;
-    private Vector2 _dashDir;
 
     // Start is called before the first frame update
     void Start()
@@ -60,13 +60,12 @@ public class TopDownController : MonoBehaviour
                 _rb.velocity = Vector2.zero;
                 break;
             case MovementState.Walking:
-                Debug.Log("hello");
-                _rb.velocity = _moveDir * speed;
+                Move(_moveDir, walkSpeed);
                 break;
             case MovementState.Sprinting:
+                Move(_moveDir, sprintSpeed);
                 break;
             case MovementState.Dashing:
-                StartCoroutine(Dash());
                 break;
             default:
                 break;
@@ -75,26 +74,44 @@ public class TopDownController : MonoBehaviour
 
     private IEnumerator Dash()
     {
+        var prevMovementState = movementState;
+        movementState = MovementState.Dashing;
+        
         _rb.velocity = Vector2.zero;
-        _rb.AddRelativeForce(_dashDir * dashSpeed, ForceMode2D.Impulse);
+        _rb.AddRelativeForce(_moveDir * dashSpeed, ForceMode2D.Impulse);
         yield return new WaitForSeconds(dashTime);
+        
+        movementState = prevMovementState;
+    }
 
-        movementState = MovementState.Idle;
+    private void Move(Vector2 dir, float speed)
+    {
+        _rb.velocity = dir * speed;
     }
 
     public void OnMove(InputAction.CallbackContext context)
     {
-        _moveDir = context.ReadValue<Vector2>();
-        movementState = context.performed ? MovementState.Walking : MovementState.Idle;
-        Debug.LogWarning(movementState);
-        
+        if(context.started) _moveDir = context.ReadValue<Vector2>();
+
+        if (context.interaction is MultiTapInteraction)
+        {
+            if (!context.performed) return;
+            
+            StartCoroutine(Dash());
+            //movementState = context.performed ? MovementState.Dashing : MovementState.Idle;
+        }
+        else
+        {
+
+            if (movementState == MovementState.Dashing) return;
+           
+            movementState = context.performed ? MovementState.Walking : MovementState.Idle;
+        }
     }
 
-    public void OnDash(InputAction.CallbackContext context)
+    public void OnSprint(InputAction.CallbackContext context)
     {
-        if (context.started) _dashDir = context.ReadValue<Vector2>();
-        
-        movementState = context.performed ? MovementState.Dashing : MovementState.Idle;
+        movementState = context.started ? MovementState.Sprinting : movementState;
     }
 
     public void OnAttack(InputAction.CallbackContext context)

@@ -14,9 +14,17 @@
                     "interactions": ""
                 },
                 {
+                    "name": "Sprint",
+                    "type": "Button",
+                    "id": "c9d2b8a3-641f-4391-a4c2-c65fb573c1c0",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
                     "name": "Dash",
                     "type": "Value",
-                    "id": "9f83dc1d-5915-4994-8834-924c33a0e93f",
+                    "id": "12fab6ae-5ee8-43e5-a693-f458156d4a87",
                     "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": ""
@@ -118,7 +126,7 @@
                 },
                 {
                     "name": "WASD",
-                    "id": "809aadc5-279c-4b36-bb55-659e69748cec",
+                    "id": "e8a4ff2a-c91a-43d4-80f9-910db2dc7e3f",
                     "path": "2DVector",
                     "interactions": "MultiTap",
                     "processors": "",
@@ -129,7 +137,7 @@
                 },
                 {
                     "name": "up",
-                    "id": "81886a12-65f4-4fa7-a0d2-e6f5e7c9e84b",
+                    "id": "20190715-9ea9-40af-917f-bf1924d49893",
                     "path": "<Keyboard>/w",
                     "interactions": "",
                     "processors": "",
@@ -140,7 +148,7 @@
                 },
                 {
                     "name": "down",
-                    "id": "d2984566-66be-47ab-8f69-c75028266df2",
+                    "id": "a71e5890-befc-4706-b45f-0f46e63ebe23",
                     "path": "<Keyboard>/s",
                     "interactions": "",
                     "processors": "",
@@ -151,7 +159,7 @@
                 },
                 {
                     "name": "left",
-                    "id": "3bcd93b7-9b35-4508-9ca9-e8249997c7f2",
+                    "id": "280f6216-d06e-41f2-bab2-0e6e4f70f5f4",
                     "path": "<Keyboard>/a",
                     "interactions": "",
                     "processors": "",
@@ -162,7 +170,7 @@
                 },
                 {
                     "name": "right",
-                    "id": "38aa0c82-0e16-445a-8b99-daefeae029cb",
+                    "id": "15543c7e-3e34-47a6-8844-dae2e4cff82b",
                     "path": "<Keyboard>/d",
                     "interactions": "",
                     "processors": "",
@@ -170,6 +178,17 @@
                     "action": "Dash",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "35b5a7dd-793a-4a71-b5e9-52708abbb4b1",
+                    "path": "<Keyboard>/leftShift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Sprint",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }
