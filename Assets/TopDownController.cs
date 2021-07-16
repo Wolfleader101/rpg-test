@@ -66,6 +66,7 @@ public class TopDownController : MonoBehaviour
                 Move(_moveDir, sprintSpeed);
                 break;
             case MovementState.Dashing:
+                StartCoroutine(Dash());
                 break;
             default:
                 break;
@@ -74,14 +75,14 @@ public class TopDownController : MonoBehaviour
 
     private IEnumerator Dash()
     {
-        var prevMovementState = movementState;
-        movementState = MovementState.Dashing;
+        //var prevMovementState = movementState;
+       // movementState = MovementState.Dashing;
         
         _rb.velocity = Vector2.zero;
         _rb.AddRelativeForce(_moveDir * dashSpeed, ForceMode2D.Impulse);
         yield return new WaitForSeconds(dashTime);
         
-        movementState = prevMovementState;
+        movementState = MovementState.Idle;
     }
 
     private void Move(Vector2 dir, float speed)
@@ -97,8 +98,7 @@ public class TopDownController : MonoBehaviour
         {
             if (!context.performed) return;
             
-            StartCoroutine(Dash());
-            //movementState = context.performed ? MovementState.Dashing : MovementState.Idle;
+            movementState = context.performed ? MovementState.Dashing : MovementState.Idle;
         }
         else
         {
@@ -111,7 +111,7 @@ public class TopDownController : MonoBehaviour
 
     public void OnSprint(InputAction.CallbackContext context)
     {
-        movementState = context.started ? MovementState.Sprinting : movementState;
+        if(movementState == MovementState.Walking || movementState == MovementState.Sprinting) movementState = context.performed ? MovementState.Sprinting : MovementState.Walking;
     }
 
     public void OnAttack(InputAction.CallbackContext context)
