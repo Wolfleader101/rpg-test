@@ -28,6 +28,7 @@ public class TopDownController : MonoBehaviour
     [SerializeField] private float sprintSpeed = 15f;
     [SerializeField] private float dashSpeed = 75f;
     [SerializeField] private float dashTime = 0.1f;
+    [SerializeField] private float dashCooldown = 0.5f;
 
     [SerializeField] private MovementState movementState = MovementState.Idle;
     [SerializeField] private InteractionState interactionState = InteractionState.None;
@@ -38,13 +39,14 @@ public class TopDownController : MonoBehaviour
 
     private Rigidbody2D _rb;
 
-
-    private Vector2 _moveDir;
+    private float _dashCooldownTime = 0f;
+    private Vector2 _moveDir = Vector2.zero;
 
     // Start is called before the first frame update
     void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
+        _dashCooldownTime = Time.time + dashCooldown;
     }
 
     // Update is called once per frame
@@ -97,8 +99,12 @@ public class TopDownController : MonoBehaviour
         if (context.interaction is MultiTapInteraction)
         {
             if (!context.performed) return;
-            
-            movementState = context.performed ? MovementState.Dashing : MovementState.Idle;
+
+            if (_dashCooldownTime <= Time.time)
+            {
+                _dashCooldownTime = Time.time + dashCooldown;
+                movementState = context.performed ? MovementState.Dashing : MovementState.Idle;
+            }
         }
         else
         {
