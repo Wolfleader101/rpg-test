@@ -18,7 +18,15 @@ public enum InteractionState
 {
     None,
     Interacting, // looting, opening doors etc??
-    Attacking,
+    Attacking, // 
+}
+
+// eventually flesh this out more with scriptable objects
+public enum AttackType
+{
+    Melee,
+    Magic,
+    Gun
 }
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -52,6 +60,15 @@ public class TopDownController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        switch (interactionState)
+        {
+            case InteractionState.None:
+                break;
+            case InteractionState.Interacting:
+                break;
+            case InteractionState.Attacking:
+                break;
+        }
     }
 
     private void FixedUpdate()
@@ -70,20 +87,15 @@ public class TopDownController : MonoBehaviour
             case MovementState.Dashing:
                 StartCoroutine(Dash());
                 break;
-            default:
-                break;
         }
     }
 
     private IEnumerator Dash()
     {
-        //var prevMovementState = movementState;
-       // movementState = MovementState.Dashing;
-        
         _rb.velocity = Vector2.zero;
         _rb.AddRelativeForce(_moveDir * dashSpeed, ForceMode2D.Impulse);
         yield return new WaitForSeconds(dashTime);
-        
+
         movementState = MovementState.Idle;
     }
 
@@ -94,7 +106,7 @@ public class TopDownController : MonoBehaviour
 
     public void OnMove(InputAction.CallbackContext context)
     {
-        if(context.started) _moveDir = context.ReadValue<Vector2>();
+        if (context.started) _moveDir = context.ReadValue<Vector2>();
 
         if (context.interaction is MultiTapInteraction)
         {
@@ -108,21 +120,23 @@ public class TopDownController : MonoBehaviour
         }
         else
         {
-
             if (movementState == MovementState.Dashing) return;
-           
+
             movementState = context.performed ? MovementState.Walking : MovementState.Idle;
         }
     }
 
     public void OnSprint(InputAction.CallbackContext context)
     {
-        if(movementState == MovementState.Walking || movementState == MovementState.Sprinting) movementState = context.performed ? MovementState.Sprinting : MovementState.Walking;
+        if (movementState == MovementState.Walking || movementState == MovementState.Sprinting)
+            movementState = context.performed ? MovementState.Sprinting : MovementState.Walking;
     }
 
     public void OnAttack(InputAction.CallbackContext context)
     {
         _isAttacking = context.started;
+        if (interactionState == InteractionState.None)
+            interactionState = context.performed ? InteractionState.Attacking : InteractionState.None;
     }
 
     public void OnInteract(InputAction.CallbackContext context)
