@@ -119,7 +119,7 @@
                 {
                     "name": "WASD",
                     "id": "809aadc5-279c-4b36-bb55-659e69748cec",
-                    "path": "2DVector(mode=2)",
+                    "path": "2DVector",
                     "interactions": "MultiTap",
                     "processors": "",
                     "groups": "",

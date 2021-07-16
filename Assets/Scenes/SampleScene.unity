@@ -240,9 +240,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 10
-  dashSpeed: 25
-  dashTime: 0.25
-  _stoppedMoving: 0
+  dashSpeed: 75
+  dashTime: 0.1
+  movementState: 0
+  interactionState: 0
 --- !u!212 &1258586546
 SpriteRenderer:
   m_ObjectHideFlags: 0
