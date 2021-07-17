@@ -78,9 +78,7 @@ public class Stats : MonoBehaviour
         currentHealth = baseHealth + _healthBuff;
         currentStamina = baseStamina + _staminaBuff;
         currentMagic = baseMagic + _magicBuff;
-
-        DrainStatOverTime(StatType.Health, 35, 4);
-
+        
     }
 
     // Update is called once per frame
@@ -134,6 +132,7 @@ public class Stats : MonoBehaviour
 
         while (timeElapsed < totalTime)
         {
+            Debug.Log(stat);
   
             stat = Mathf.Lerp(stat, endStat,
                 timeElapsed / totalTime);
