@@ -78,12 +78,15 @@ public class Stats : MonoBehaviour
         currentHealth = baseHealth + _healthBuff;
         currentStamina = baseStamina + _staminaBuff;
         currentMagic = baseMagic + _magicBuff;
-        
+
+        DrainStatOverTime(StatType.Health, 35, 4);
+
     }
 
     // Update is called once per frame
     void Update()
     {
+       
     }
 
     public void Damage(float amount)
@@ -132,7 +135,7 @@ public class Stats : MonoBehaviour
         while (timeElapsed < totalTime)
         {
   
-            currentStamina = Mathf.Lerp(stat, endStat,
+            stat = Mathf.Lerp(stat, endStat,
                 timeElapsed / totalTime);
                 
             timeElapsed += Time.deltaTime;
