@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -136,40 +137,35 @@ public class Stats : MonoBehaviour
         }
     }
 
-    public void DrainStatOverTime(StatType stat, float totalDamage, float totalTime)
+    public IEnumerator DrainStatOverTime(StatType stat, float totalDrain, float totalTime)
     {
         switch (stat)
         {
             case StatType.Health:
-                StartCoroutine(_DrainStatOverTime(currentHealth, totalDamage, totalTime));
+                float timeElapsed = 0f;
+                float endStat = (currentHealth - totalDrain);
+                while (timeElapsed < totalTime)
+                {
+                    healthBar.SetHealth((float)Math.Round(currentHealth * 100f) / 100f);
+
+                    currentHealth = Mathf.Lerp(currentHealth, endStat,
+                        timeElapsed / totalTime);
+
+                    timeElapsed += Time.deltaTime;
+
+                    yield return null;
+                }
+
+        
+                currentHealth = endStat;
+                healthBar.SetHealth((float)Math.Round(currentHealth * 100f) / 100f);
+                
                 break;
             case StatType.Stamina:
-                StartCoroutine(_DrainStatOverTime(currentStamina, totalDamage, totalTime));
                 break;
             case StatType.Magic:
-                StartCoroutine(_DrainStatOverTime(CurrentMagic, totalDamage, totalTime));
                 break;
         }
-    }
-
-    private IEnumerator _DrainStatOverTime(float stat, float totalDamage, float totalTime)
-    {
-        float timeElapsed = 0f;
-        float endStat = (stat - totalDamage);
-
-        while (timeElapsed < totalTime)
-        {
-            Debug.Log(stat);
-
-            stat = Mathf.Lerp(stat, endStat,
-                timeElapsed / totalTime);
-
-            timeElapsed += Time.deltaTime;
-
-            yield return null;
-        }
-
-        stat = endStat;
     }
 
 

@@ -76,7 +76,9 @@ public class TopDownController : MonoBehaviour
     private IEnumerator AttackState()
     {
         interactionState = InteractionState.Attacking;
-        _stats.Damage(1);
+        
+       StartCoroutine(_stats.DrainStatOverTime(StatType.Health, 10, 1f));
+        
         yield return new WaitForSeconds(1f);
         interactionState = InteractionState.None;
     }
@@ -145,7 +147,7 @@ public class TopDownController : MonoBehaviour
 
     public void OnAttack(InputAction.CallbackContext context)
     {
-        if (context.started)
+        if (context.started && interactionState == InteractionState.None)
         {
             interactionState = InteractionState.StartAttacking;
             
