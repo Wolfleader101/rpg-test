@@ -21,8 +21,8 @@ public class HealthBar : MonoBehaviour
         
         textMesh.text = health.ToString();
         
-        textMesh.color = gradient.Evaluate(1f);
-        textMesh.faceColor = gradient.Evaluate(1f);
+       // textMesh.color = gradient.Evaluate(1f);
+       // textMesh.faceColor = gradient.Evaluate(1f);
     }
 
     public void SetHealth(float health)
@@ -33,7 +33,7 @@ public class HealthBar : MonoBehaviour
         
         textMesh.text = health.ToString();
 
-        textMesh.color = gradient.Evaluate(slider.normalizedValue);
-        textMesh.faceColor = gradient.Evaluate(slider.normalizedValue);
+        //textMesh.color = gradient.Evaluate(slider.normalizedValue);
+        //textMesh.faceColor = gradient.Evaluate(slider.normalizedValue);
     }
 }

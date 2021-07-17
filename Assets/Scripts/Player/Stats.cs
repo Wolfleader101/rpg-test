@@ -104,8 +104,9 @@ public class Stats : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+       
     }
+    
 
     public void Damage(float amount)
     {
@@ -144,21 +145,30 @@ public class Stats : MonoBehaviour
             case StatType.Health:
                 float timeElapsed = 0f;
                 float endStat = (currentHealth - totalDrain);
+
                 while (timeElapsed < totalTime)
                 {
-                    healthBar.SetHealth((float)Math.Round(currentHealth * 100f) / 100f);
-
+                    //Debug.LogError(timeElapsed);
+                    healthBar.SetHealth((float)Mathf.Round(currentHealth * 100f) / 100f);
                     currentHealth = Mathf.Lerp(currentHealth, endStat,
                         timeElapsed / totalTime);
 
-                    timeElapsed += Time.deltaTime;
+                    if (Time.timeScale == 0)
+                    {
+                        timeElapsed += Time.unscaledDeltaTime;
+                    }
+                    else
+                    { 
+                        timeElapsed += Time.deltaTime;
+                    }
+                   
 
                     yield return null;
                 }
 
         
                 currentHealth = endStat;
-                healthBar.SetHealth((float)Math.Round(currentHealth * 100f) / 100f);
+                healthBar.SetHealth((float)Mathf.Round(currentHealth * 100f) / 100f);
                 
                 break;
             case StatType.Stamina:
