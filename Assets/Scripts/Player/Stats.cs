@@ -15,6 +15,16 @@ public enum StatType
 //     Magic
 // }
 
+public struct CurrentStats
+{
+    public float Health { get; set; }
+
+    public float Stamina { get; set; }
+    
+    public float Magic { get; set; }
+}
+
+[RequireComponent(typeof(HealthBar))]
 public class Stats : MonoBehaviour
 {
     [SerializeField] private float baseHealth = 100f;
@@ -36,10 +46,16 @@ public class Stats : MonoBehaviour
     public float CurrentMagic => currentMagic;
 
 
+   private CurrentStats _currentStats;
+    public CurrentStats CurrentStats => _currentStats;
+
     private float _healthBuff = 0f;
     private float _staminaBuff = 0f;
     private float _magicBuff = 0f;
-    
+
+
+    private HealthBar _healthBar;
+
 
     private float HealthBuff
     {
@@ -71,25 +87,36 @@ public class Stats : MonoBehaviour
             currentMagic += value;
         }
     }
-    
+
     // Start is called before the first frame update
     void Start()
     {
+        _currentStats.Health = baseHealth + _healthBuff;
+        
         currentHealth = baseHealth + _healthBuff;
         currentStamina = baseStamina + _staminaBuff;
         currentMagic = baseMagic + _magicBuff;
-        
+
+        _healthBar = GetComponent<HealthBar>();
+        //_healthBar.SetMaxHealth(currentHealth);
     }
 
     // Update is called once per frame
     void Update()
     {
-       
+        
     }
 
     public void Damage(float amount)
     {
         currentHealth -= amount;
+
+        if (currentHealth <= 0) Kill();
+    }
+
+    // potentially make public
+    private void Kill()
+    {
     }
 
     public void DrainStat(StatType stat, float amount)
@@ -122,7 +149,6 @@ public class Stats : MonoBehaviour
                 StartCoroutine(_DrainStatOverTime(CurrentMagic, totalDamage, totalTime));
                 break;
         }
-        
     }
 
     private IEnumerator _DrainStatOverTime(float stat, float totalDamage, float totalTime)
@@ -133,18 +159,18 @@ public class Stats : MonoBehaviour
         while (timeElapsed < totalTime)
         {
             Debug.Log(stat);
-  
+
             stat = Mathf.Lerp(stat, endStat,
                 timeElapsed / totalTime);
-                
+
             timeElapsed += Time.deltaTime;
 
             yield return null;
         }
-        
+
         stat = endStat;
     }
-    
+
 
     public void RemoveBuff(StatType stat)
     {
@@ -219,6 +245,4 @@ public class Stats : MonoBehaviour
     public void AddBuffOverTime()
     {
     }
-
-    
 }

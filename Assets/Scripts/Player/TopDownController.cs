@@ -56,7 +56,7 @@ public class TopDownController : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody2D>();
         _stats = GetComponent<Stats>();
-        
+
         _dashCooldownTime = Time.time + dashCooldown;
     }
 
