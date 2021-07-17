@@ -167,7 +167,7 @@ public class Stats : MonoBehaviour
                 }
 
         
-                currentHealth = endStat;
+                //currentHealth = endStat;
                 healthBar.SetHealth((float)Mathf.Round(currentHealth * 100f) / 100f);
                 
                 break;
