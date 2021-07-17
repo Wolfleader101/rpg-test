@@ -29,7 +29,7 @@ public enum AttackType
     Gun
 }
 
-[RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(Rigidbody2D), typeof(Stats))]
 public class TopDownController : MonoBehaviour
 {
     [SerializeField] private float walkSpeed = 10f;
@@ -46,6 +46,7 @@ public class TopDownController : MonoBehaviour
     private bool _isInteracting = false;
 
     private Rigidbody2D _rb;
+    private Stats _stats;
 
     private float _dashCooldownTime = 0f;
     private Vector2 _moveDir = Vector2.zero;
@@ -54,6 +55,8 @@ public class TopDownController : MonoBehaviour
     void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
+        _stats = GetComponent<Stats>();
+        
         _dashCooldownTime = Time.time + dashCooldown;
     }
 
@@ -134,13 +137,15 @@ public class TopDownController : MonoBehaviour
 
     public void OnAttack(InputAction.CallbackContext context)
     {
-        _isAttacking = context.started;
-        if (interactionState == InteractionState.None)
+        if (interactionState == InteractionState.None || interactionState == InteractionState.Attacking)
+        {
             interactionState = context.performed ? InteractionState.Attacking : InteractionState.None;
+                //_stats.StaminaBuff =- 2.5f;
+        }
+            
     }
 
     public void OnInteract(InputAction.CallbackContext context)
     {
-        _isInteracting = context.started;
     }
 }
