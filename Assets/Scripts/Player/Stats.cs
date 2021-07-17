@@ -39,6 +39,7 @@ public class Stats : MonoBehaviour
     private float _healthBuff = 0f;
     private float _staminaBuff = 0f;
     private float _magicBuff = 0f;
+    
 
     private float HealthBuff
     {
@@ -70,6 +71,20 @@ public class Stats : MonoBehaviour
             currentMagic += value;
         }
     }
+    
+    // Start is called before the first frame update
+    void Start()
+    {
+        currentHealth = baseHealth + _healthBuff;
+        currentStamina = baseStamina + _staminaBuff;
+        currentMagic = baseMagic + _magicBuff;
+        
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+    }
 
     public void Damage(float amount)
     {
@@ -92,7 +107,44 @@ public class Stats : MonoBehaviour
         }
     }
 
-    public void ClearBuff(StatType stat)
+    public void DrainStatOverTime(StatType stat, float totalDamage, float totalTime)
+    {
+        switch (stat)
+        {
+            case StatType.Health:
+                StartCoroutine(_DrainStatOverTime(currentHealth, totalDamage, totalTime));
+                break;
+            case StatType.Stamina:
+                StartCoroutine(_DrainStatOverTime(currentStamina, totalDamage, totalTime));
+                break;
+            case StatType.Magic:
+                StartCoroutine(_DrainStatOverTime(CurrentMagic, totalDamage, totalTime));
+                break;
+        }
+        
+    }
+
+    private IEnumerator _DrainStatOverTime(float stat, float totalDamage, float totalTime)
+    {
+        float timeElapsed = 0f;
+        float endStat = (stat - totalDamage);
+
+        while (timeElapsed < totalTime)
+        {
+  
+            currentStamina = Mathf.Lerp(stat, endStat,
+                timeElapsed / totalTime);
+                
+            timeElapsed += Time.deltaTime;
+
+            yield return null;
+        }
+        
+        stat = endStat;
+    }
+    
+
+    public void RemoveBuff(StatType stat)
     {
         switch (stat)
         {
@@ -111,6 +163,34 @@ public class Stats : MonoBehaviour
         }
     }
 
+    public void RemoveBuff(StatType stat, float amount)
+    {
+        switch (stat)
+        {
+            case StatType.Health:
+                //currentHealth -= amount;
+                HealthBuff -= amount;
+                break;
+            case StatType.Stamina:
+                //currentStamina -= amount;
+                StaminaBuff -= amount;
+                break;
+            case StatType.Magic:
+                //currentMagic -= amount;
+                MagicBuff -= amount;
+                break;
+        }
+    }
+
+    // public void RemoveBuffOverTime(StatType stat, float totalDamage, float time)
+    // {
+    //     float dmgEachTime = totalDamage / time;
+    //     float totalTime = 0f;
+    //     while (totalTime <= time)
+    //     {
+    //         
+    //     }
+    // }
     public void ClearAllBuffs()
     {
         HealthBuff = 0f;
@@ -138,25 +218,5 @@ public class Stats : MonoBehaviour
     {
     }
 
-    public void RemoveBuff()
-    {
-    }
-
-    public void RemoveBuffOverTime()
-    {
-    }
-
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        currentHealth = baseHealth + _healthBuff;
-        currentStamina = baseStamina + _staminaBuff;
-        currentMagic = baseMagic + _magicBuff;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-    }
+    
 }
