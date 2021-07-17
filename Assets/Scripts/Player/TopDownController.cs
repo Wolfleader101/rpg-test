@@ -18,7 +18,8 @@ public enum InteractionState
 {
     None,
     Interacting, // looting, opening doors etc??
-    Attacking, // 
+    StartAttacking,
+    Attacking,
 }
 
 // eventually flesh this out more with scriptable objects
@@ -40,10 +41,7 @@ public class TopDownController : MonoBehaviour
 
     [SerializeField] private MovementState movementState = MovementState.Idle;
     [SerializeField] private InteractionState interactionState = InteractionState.None;
-
-
-    private bool _isAttacking = false;
-    private bool _isInteracting = false;
+    
 
     private Rigidbody2D _rb;
     private Stats _stats;
@@ -69,10 +67,20 @@ public class TopDownController : MonoBehaviour
                 break;
             case InteractionState.Interacting:
                 break;
-            case InteractionState.Attacking:
+            case InteractionState.StartAttacking:
+                StartCoroutine(AttackState());
                 break;
         }
     }
+
+    private IEnumerator AttackState()
+    {
+        interactionState = InteractionState.Attacking;
+        _stats.Damage(1);
+        yield return new WaitForSeconds(1f);
+        interactionState = InteractionState.None;
+    }
+    
 
     private void FixedUpdate()
     {
@@ -137,11 +145,16 @@ public class TopDownController : MonoBehaviour
 
     public void OnAttack(InputAction.CallbackContext context)
     {
-        if (interactionState == InteractionState.None || interactionState == InteractionState.Attacking)
+        if (context.started)
         {
-            interactionState = context.performed ? InteractionState.Attacking : InteractionState.None;
-                //_stats.StaminaBuff =- 2.5f;
+            interactionState = InteractionState.StartAttacking;
+            
         }
+        // if (interactionState == InteractionState.None || interactionState == InteractionState.Attacking)
+        // {
+        //     interactionState = context.started ? InteractionState.Attacking : InteractionState.None;
+        //     Debug.Log(context.started);
+        // }
             
     }
 

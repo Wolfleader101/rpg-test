@@ -24,9 +24,9 @@ public struct CurrentStats
     public float Magic { get; set; }
 }
 
-[RequireComponent(typeof(HealthBar))]
 public class Stats : MonoBehaviour
 {
+    [SerializeField] private HealthBar healthBar;
     [SerializeField] private float baseHealth = 100f;
     public float BaseHealth => baseHealth;
 
@@ -54,7 +54,7 @@ public class Stats : MonoBehaviour
     private float _magicBuff = 0f;
 
 
-    private HealthBar _healthBar;
+ 
 
 
     private float HealthBuff
@@ -96,9 +96,8 @@ public class Stats : MonoBehaviour
         currentHealth = baseHealth + _healthBuff;
         currentStamina = baseStamina + _staminaBuff;
         currentMagic = baseMagic + _magicBuff;
-
-        _healthBar = GetComponent<HealthBar>();
-        //_healthBar.SetMaxHealth(currentHealth);
+        
+        healthBar.SetMaxHealth(currentHealth);
     }
 
     // Update is called once per frame
@@ -110,6 +109,8 @@ public class Stats : MonoBehaviour
     public void Damage(float amount)
     {
         currentHealth -= amount;
+        
+        healthBar.SetHealth(currentHealth);
 
         if (currentHealth <= 0) Kill();
     }
