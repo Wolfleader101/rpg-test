@@ -126,7 +126,7 @@ public class Stats : MonoBehaviour
 
         currentHealth = MaxHealth;
         currentStamina = MaxStamina;
-        currentMana = MaxStamina;
+        currentMana = maxMana;
     }
     
 
