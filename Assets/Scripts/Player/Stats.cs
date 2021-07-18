@@ -91,26 +91,11 @@ public class Stats : MonoBehaviour
     [SerializeField] private float staminaBuff = 0f;
     [SerializeField] private float manaBuff = 0f;
     public float HealthBuff { get => healthBuff; private set => healthBuff = value; }
-    public void AddHealthBuff(float value)
-    {
-        HealthBuff += value;
-        MaxHealth += value;
-    }
     
     public float StaminaBuff { get => staminaBuff; private set => staminaBuff = value; }
-    public void AddStaminaBuff(float value)
-    {
-        StaminaBuff += value;
-        MaxStamina += value;
-    }
 
     public float ManaBuff { get => manaBuff; private set => manaBuff = value; }
-    public void AddManaBuff(float value)
-    {
-        ManaBuff += value;
-        MaxMana += value;
-    }
-    
+ 
     #endregion
 
     #region Unity Events
@@ -231,83 +216,79 @@ public class Stats : MonoBehaviour
     #endregion
     
     #region Buff Methods
-
-    public float AddBuff(float currentMaxValue, float bluffValue)
+    public void AddHealthBuff(float value)
     {
-        return currentMaxValue + bluffValue;
+        HealthBuff += value;
+        MaxHealth += value;
     }
+    public void AddStaminaBuff(float value)
+    {
+        StaminaBuff += value;
+        MaxStamina += value;
+    }
+    public void AddManaBuff(float value)
+    {
+        ManaBuff += value;
+        MaxMana += value;
+    }
+    public void AddBuff(StatType stat, float value)
+    {
+        switch (stat)
+        {
+            case StatType.Health:
+                AddHealthBuff(value);
+                break;
+            case StatType.Stamina:
+                AddStaminaBuff(value);
+                break;
+            case StatType.Mana:
+                AddManaBuff(value);
+                break;
+        }
+    }
+    
     public void RemoveBuff(StatType stat)
     {
         switch (stat)
         {
             case StatType.Health:
-                currentHealth -= HealthBuff;
-                HealthBuff = 0f;
+                RemoveBuff(StatType.Health, HealthBuff);
                 break;
             case StatType.Stamina:
-                currentStamina -= StaminaBuff;
-                StaminaBuff = 0f;
+                RemoveBuff(StatType.Stamina, StaminaBuff);
                 break;
             case StatType.Mana:
-                currentMana -= ManaBuff;
-                ManaBuff = 0f;
+                RemoveBuff(StatType.Mana, ManaBuff);
                 break;
         }
     }
 
-    public void RemoveBuff(StatType stat, float amount)
+    public void RemoveBuff(StatType stat, float value)
     {
         switch (stat)
         {
             case StatType.Health:
-                //currentHealth -= amount;
-                HealthBuff -= amount;
+                HealthBuff -= value;
+                maxHealth -= value;
                 break;
             case StatType.Stamina:
-                //currentStamina -= amount;
-                StaminaBuff -= amount;
+                StaminaBuff -= value;
+                MaxStamina -= value;
                 break;
             case StatType.Mana:
-                //currentMana -= amount;
-                ManaBuff -= amount;
+                ManaBuff -= value;
+                MaxMana -= value;
+                
                 break;
         }
     }
-
-    // public void RemoveBuffOverTime(StatType stat, float totalDamage, float time)
-    // {
-    //     float dmgEachTime = totalDamage / time;
-    //     float totalTime = 0f;
-    //     while (totalTime <= time)
-    //     {
-    //         
-    //     }
-    // }
+    
     public void ClearAllBuffs()
     {
-        HealthBuff = 0f;
-        StaminaBuff = 0f;
-        ManaBuff = 0f;
+        RemoveBuff(StatType.Health, HealthBuff);
+        RemoveBuff(StatType.Stamina, StaminaBuff);
+        RemoveBuff(StatType.Mana, ManaBuff);
     }
-
-    public void AddBuff(StatType stat, float amount)
-    {
-        switch (stat)
-        {
-            case StatType.Health:
-                HealthBuff += amount;
-                break;
-            case StatType.Stamina:
-                StaminaBuff += amount;
-                break;
-            case StatType.Mana:
-                ManaBuff += amount;
-                break;
-        }
-    }
-
-    public void AddBuffOverTime()
-    {
-    }
+    
     #endregion
 }
