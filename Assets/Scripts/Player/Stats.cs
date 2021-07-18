@@ -9,12 +9,14 @@ public enum StatType
     Stamina,
     Mana
 }
+
 public class Stats : MonoBehaviour
 {
+    #region SerializedFields
     [SerializeField] private StatsBar healthBar;
     [SerializeField] private StatsBar staminaBar;
     [SerializeField] private StatsBar manaBar;
-    
+
     [SerializeField] private float baseHealth = 100f;
     public float BaseHealth => baseHealth;
 
@@ -32,7 +34,10 @@ public class Stats : MonoBehaviour
 
     [SerializeField] private float currentMana = 0f;
     public float CurrentMana => currentMana;
+    
+    #endregion
 
+    #region Private Fields
     private float _maxHealth = 0f;
     private float _maxStamina = 0f;
     private float _maxMana = 0f;
@@ -70,13 +75,14 @@ public class Stats : MonoBehaviour
             currentMana += value;
         }
     }
+    #endregion
 
-    // Start is called before the first frame update
+    #region Unity Events
     void Start()
     {
-        UpdateMaxHealth(ref _maxHealth, baseHealth, _healthBuff);
+        //UpdateMaxStat(ref _maxHealth, baseHealth, _healthBuff);
         Debug.Log(_maxHealth);
-        
+
         currentHealth = baseHealth + _healthBuff;
         currentStamina = baseStamina + _staminaBuff;
         currentMana = baseMana + _manaBuff;
@@ -85,24 +91,23 @@ public class Stats : MonoBehaviour
         staminaBar.SetMaxValue(currentStamina);
         manaBar.SetMaxValue(currentMana);
     }
+    
 
-    private void UpdateMaxHealth(ref float maxValue, float baseValue, float buffValue)
+    #endregion
+
+    #region Stats Methods
+    private void UpdateMaxStat(ref float maxValue, float baseValue, float buffValue)
     {
         maxValue = baseValue + buffValue;
     }
 
-public void Damage(float amount)
+    public void Damage(float amount)
     {
         currentHealth -= amount;
-        
+
         healthBar.SetValue(currentHealth);
 
-        if (currentHealth <= 0) Kill();
-    }
-
-    // potentially make public
-    private void Kill()
-    {
+        //if (currentHealth <= 0) Kill();
     }
 
     public void DrainStat(StatType stat, float amount)
@@ -143,18 +148,18 @@ public void Damage(float amount)
                         timeElapsed += Time.unscaledDeltaTime;
                     }
                     else
-                    { 
+                    {
                         timeElapsed += Time.deltaTime;
                     }
-                   
+
 
                     yield return null;
                 }
 
-        
+
                 //currentHealth = endStat;
                 healthBar.SetValue(currentHealth);
-                
+
                 break;
             case StatType.Stamina:
                 timeElapsed = 0f;
@@ -172,15 +177,15 @@ public void Damage(float amount)
                         timeElapsed += Time.unscaledDeltaTime;
                     }
                     else
-                    { 
+                    {
                         timeElapsed += Time.deltaTime;
                     }
-                   
+
 
                     yield return null;
                 }
 
-        
+
                 //currentHealth = endStat;
                 staminaBar.SetValue(currentStamina);
                 break;
@@ -189,6 +194,10 @@ public void Damage(float amount)
         }
     }
 
+    
+    #endregion
+    
+    #region Buff Methods
     public void RemoveBuff(StatType stat)
     {
         switch (stat)
@@ -262,4 +271,5 @@ public void Damage(float amount)
     public void AddBuffOverTime()
     {
     }
+    #endregion
 }
