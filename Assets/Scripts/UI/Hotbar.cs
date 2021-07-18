@@ -17,7 +17,7 @@ public class Hotbar : MonoBehaviour
 
     private void OnButtonClicked(int buttonNumber)
     {
-        _currentSelectedButton.transform.Find("Selected").gameObject.SetActive(false);
+       if(_currentSelectedButton != null) _currentSelectedButton.transform.Find("Selected").gameObject.SetActive(false);
         
         _currentSelectedButton = transform.Find($"Hotbar Item {buttonNumber}").gameObject;
         

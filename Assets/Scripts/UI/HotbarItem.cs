@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class HotbarItem : MonoBehaviour
@@ -14,7 +15,7 @@ public class HotbarItem : MonoBehaviour
     private void OnValidate()
     {
         _keyNumber = transform.GetSiblingIndex() + 1;
-        _keyCode = KeyCode.Alpha0 + _keyNumber;
+        //_keyCode = KeyCode.Alpha0 + _keyNumber;
 
         gameObject.name = $"Hotbar Item {_keyNumber}";
     }
@@ -38,5 +39,14 @@ public class HotbarItem : MonoBehaviour
     private void HandleClick()
     {
         OnButtonClicked?.Invoke(_keyNumber);
+    }
+
+    public void OnHotbarPress(InputAction.CallbackContext context)
+    {
+        int key = Int32.Parse(context.control.name);
+        if (key == _keyNumber)
+        {
+            HandleClick();
+        }
     }
 }
