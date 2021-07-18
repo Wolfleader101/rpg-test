@@ -13,12 +13,13 @@ public enum StatType
 public class Stats : MonoBehaviour
 {
 
+    [Header("Stats Bars")]
     [SerializeField] private StatsBar healthBar;
     [SerializeField] private StatsBar staminaBar;
     [SerializeField] private StatsBar manaBar;
 
     #region Base Stats
-
+    [Header("Base Stats")]
     [SerializeField] private float baseHealth = 100f;
     public float BaseHealth => baseHealth;
 
@@ -31,6 +32,8 @@ public class Stats : MonoBehaviour
     #endregion
 
     #region Current Stats
+    
+    [Header("Current Stats")]
     [SerializeField] private float currentHealth = 0f;
     public float CurrentHealth => currentHealth;
 
@@ -44,58 +47,64 @@ public class Stats : MonoBehaviour
 
     #region Max Stats
     
-    private float _maxHealth = 0f;
-    private float _maxStamina = 0f;
-    private float _maxMana = 0f;
+    [Header("Max Stats")]
+    [SerializeField] private float maxHealth = 0f;
+    [SerializeField] private float maxStamina = 0f;
+    [SerializeField] private float maxMana = 0f;
 
     private float MaxHealth
     {
-        get => _maxHealth;
+        get => maxHealth;
         set
         {
-            _maxHealth = value;
-            healthBar.SetMaxValue(_maxHealth);
+            maxHealth = value;
+            healthBar.SetMaxValue(maxHealth);
         }
     }
     
     private float MaxStamina
     {
-        get => _maxStamina;
+        get => maxStamina;
         set
         {
-            _maxStamina = value;
-            staminaBar.SetMaxValue(_maxStamina);
+            maxStamina = value;
+            staminaBar.SetMaxValue(maxStamina);
         }
     }
     
     private float MaxMana
     {
-        get => _maxMana;
+        get => maxMana;
         set
         {
-            _maxMana = value;
-            manaBar.SetMaxValue(_maxMana);
+            maxMana = value;
+            manaBar.SetMaxValue(maxMana);
         }
     }
 
     #endregion
 
     #region Stat Buffs
-    public float HealthBuff { get; set; }
+
+    [Header("Buff Stats")]
+    [SerializeField] private float healthBuff = 0f;
+    [SerializeField] private float staminaBuff = 0f;
+    [SerializeField] private float manaBuff = 0f;
+    public float HealthBuff { get => healthBuff; private set => healthBuff = value; }
     public void AddHealthBuff(float value)
     {
         HealthBuff += value;
         MaxHealth += value;
     }
     
-    public float StaminaBuff { get; private set; }
+    public float StaminaBuff { get => staminaBuff; private set => staminaBuff = value; }
     public void AddStaminaBuff(float value)
     {
         StaminaBuff += value;
         MaxStamina += value;
     }
 
-    public float ManaBuff { get; private set; }
+    public float ManaBuff { get => manaBuff; private set => manaBuff = value; }
     public void AddManaBuff(float value)
     {
         ManaBuff += value;
@@ -110,10 +119,14 @@ public class Stats : MonoBehaviour
         MaxHealth = baseHealth + HealthBuff;
         MaxStamina = baseStamina + StaminaBuff;
         MaxMana = baseMana + ManaBuff;
+        
+        healthBar.SetInitialValue(MaxHealth);
+        staminaBar.SetInitialValue(MaxStamina);
+        manaBar.SetInitialValue(MaxMana);
 
-        currentHealth = _maxHealth;
-        currentStamina = _maxStamina;
-        currentMana = _maxStamina;
+        currentHealth = MaxHealth;
+        currentStamina = MaxStamina;
+        currentMana = MaxStamina;
     }
     
 
