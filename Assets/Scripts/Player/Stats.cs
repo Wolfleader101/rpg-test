@@ -274,7 +274,7 @@ public class Stats : MonoBehaviour
                 break;
             case StatType.Mana:
                 StartCoroutine(_RecoverStatOverTime(val => CurrentMana = val, CurrentMana, MaxMana,
-                    staminaRecoveryPerSecond, val => canRecoverMana = val));
+                    manaRecoveryPerSecond, val => canRecoverMana = val));
                 break;
         }
     }
