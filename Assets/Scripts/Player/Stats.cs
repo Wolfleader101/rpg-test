@@ -35,13 +35,39 @@ public class Stats : MonoBehaviour
     
     [Header("Current Stats")]
     [SerializeField] private float currentHealth = 0f;
-    public float CurrentHealth => currentHealth;
+    public float CurrentHealth
+    {
+        get => currentHealth;
+        private set
+        {
+            currentHealth = value;
+            healthBar.SetValue(currentHealth);
+        }
+    }
 
     [SerializeField] private float currentStamina = 0f;
-    public float CurrentStamina => currentStamina;
+
+    public float CurrentStamina
+    {
+        get => currentStamina;
+        private set
+        {
+            currentStamina = value;
+            staminaBar.SetValue(currentStamina);
+        }
+    }
 
     [SerializeField] private float currentMana = 0f;
-    public float CurrentMana => currentMana;
+
+    public float CurrentMana
+    {
+        get => currentMana;
+        private set
+        {
+            currentMana = value;
+            manaBar.SetValue(currentMana);
+        }
+    }
     
     #endregion
 
@@ -143,76 +169,45 @@ public class Stats : MonoBehaviour
                 break;
         }
     }
-
-    public IEnumerator DrainStatOverTime(StatType stat, float totalDrain, float totalTime)
+    
+    public void DrainStatOverTime(StatType stat, float totalDrain, float totalTime)
     {
-        float timeElapsed;
-        float endStat;
         switch (stat)
         {
             case StatType.Health:
-                timeElapsed = 0f;
-                endStat = (currentHealth - totalDrain);
-
-                while (timeElapsed < totalTime)
-                {
-                    //Debug.LogError(timeElapsed);
-                    healthBar.SetValue(currentHealth);
-                    currentHealth = Mathf.Lerp(currentHealth, endStat,
-                        timeElapsed / totalTime);
-
-                    if (Time.timeScale == 0)
-                    {
-                        timeElapsed += Time.unscaledDeltaTime;
-                    }
-                    else
-                    {
-                        timeElapsed += Time.deltaTime;
-                    }
-
-
-                    yield return null;
-                }
-
-
-                //currentHealth = endStat;
-                healthBar.SetValue(currentHealth);
-
+                StartCoroutine(_DrainStatOverTime(val => CurrentHealth = val, CurrentHealth, totalDrain, totalTime));
                 break;
             case StatType.Stamina:
-                timeElapsed = 0f;
-                endStat = (currentStamina - totalDrain);
-
-                while (timeElapsed < totalTime)
-                {
-                    //Debug.LogError(timeElapsed);
-                    staminaBar.SetValue(currentStamina);
-                    currentStamina = Mathf.Lerp(currentStamina, endStat,
-                        timeElapsed / totalTime);
-
-                    if (Time.timeScale == 0)
-                    {
-                        timeElapsed += Time.unscaledDeltaTime;
-                    }
-                    else
-                    {
-                        timeElapsed += Time.deltaTime;
-                    }
-
-
-                    yield return null;
-                }
-
-
-                //currentHealth = endStat;
-                staminaBar.SetValue(currentStamina);
+                StartCoroutine(_DrainStatOverTime(val => CurrentStamina = val, CurrentStamina, totalDrain, totalTime));
                 break;
             case StatType.Mana:
+                StartCoroutine(_DrainStatOverTime(val => CurrentMana = val, CurrentMana, totalDrain, totalTime));
                 break;
         }
     }
 
     
+    private IEnumerator _DrainStatOverTime(Action<float> callback, float stat, float totalDrain, float totalTime)
+    {
+        float timeElapsed = 0f;
+        float endStat = (stat - totalDrain);
+
+        while (timeElapsed < totalTime)
+        {
+
+            callback( Mathf.Lerp(stat, endStat,
+                timeElapsed / totalTime));
+
+            timeElapsed += Time.deltaTime;
+
+            yield return null;
+        }
+
+
+        callback(endStat);
+    }
+
+
     #endregion
     
     #region Buff Methods
