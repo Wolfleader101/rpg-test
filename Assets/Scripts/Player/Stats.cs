@@ -216,17 +216,17 @@ public class Stats : MonoBehaviour
     #endregion
     
     #region Buff Methods
-    public void AddHealthBuff(float value)
+    private void AddHealthBuff(float value)
     {
         HealthBuff += value;
         MaxHealth += value;
     }
-    public void AddStaminaBuff(float value)
+    private void AddStaminaBuff(float value)
     {
         StaminaBuff += value;
         MaxStamina += value;
     }
-    public void AddManaBuff(float value)
+    private void AddManaBuff(float value)
     {
         ManaBuff += value;
         MaxMana += value;
