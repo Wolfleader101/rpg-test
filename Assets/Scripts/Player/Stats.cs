@@ -7,26 +7,22 @@ public enum StatType
 {
     Health,
     Stamina,
-    Magic
+    Mana
 }
-// public enum BuffType
-// {
-//     Health,
-//     Stamina,
-//     Magic
-// }
-
 public class Stats : MonoBehaviour
 {
     [SerializeField] private StatsBar healthBar;
+    [SerializeField] private StatsBar staminaBar;
+    [SerializeField] private StatsBar manaBar;
+    
     [SerializeField] private float baseHealth = 100f;
     public float BaseHealth => baseHealth;
 
     [SerializeField] private float baseStamina = 100f;
     public float BaseStamina => baseStamina;
 
-    [SerializeField] private float baseMagic = 50f;
-    public float BaseMagic => baseMagic;
+    [SerializeField] private float baseMana = 50f;
+    public float BaseMana => baseMana;
 
     [SerializeField] private float currentHealth = 0f;
     public float CurrentHealth => currentHealth;
@@ -34,16 +30,16 @@ public class Stats : MonoBehaviour
     [SerializeField] private float currentStamina = 0f;
     public float CurrentStamina => currentStamina;
 
-    [SerializeField] private float currentMagic = 0f;
-    public float CurrentMagic => currentMagic;
+    [SerializeField] private float currentMana = 0f;
+    public float CurrentMana => currentMana;
 
     private float _maxHealth = 0f;
     private float _maxStamina = 0f;
-    private float _maxMagic = 0f;
+    private float _maxMana = 0f;
 
     private float _healthBuff = 0f;
     private float _staminaBuff = 0f;
-    private float _magicBuff = 0f;
+    private float _manaBuff = 0f;
 
     private float HealthBuff
     {
@@ -65,13 +61,13 @@ public class Stats : MonoBehaviour
         }
     }
 
-    private float MagicBuff
+    private float ManaBuff
     {
-        get => _magicBuff;
+        get => _manaBuff;
         set
         {
-            _magicBuff = value;
-            currentMagic += value;
+            _manaBuff = value;
+            currentMana += value;
         }
     }
 
@@ -83,9 +79,11 @@ public class Stats : MonoBehaviour
         
         currentHealth = baseHealth + _healthBuff;
         currentStamina = baseStamina + _staminaBuff;
-        currentMagic = baseMagic + _magicBuff;
+        currentMana = baseMana + _manaBuff;
 
         healthBar.SetMaxValue(currentHealth);
+        staminaBar.SetMaxValue(currentStamina);
+        manaBar.SetMaxValue(currentMana);
     }
 
     private void UpdateMaxHealth(ref float maxValue, float baseValue, float buffValue)
@@ -117,19 +115,21 @@ public void Damage(float amount)
             case StatType.Stamina:
                 currentStamina -= amount;
                 break;
-            case StatType.Magic:
-                currentMagic -= amount;
+            case StatType.Mana:
+                currentMana -= amount;
                 break;
         }
     }
 
     public IEnumerator DrainStatOverTime(StatType stat, float totalDrain, float totalTime)
     {
+        float timeElapsed;
+        float endStat;
         switch (stat)
         {
             case StatType.Health:
-                float timeElapsed = 0f;
-                float endStat = (currentHealth - totalDrain);
+                timeElapsed = 0f;
+                endStat = (currentHealth - totalDrain);
 
                 while (timeElapsed < totalTime)
                 {
@@ -157,8 +157,34 @@ public void Damage(float amount)
                 
                 break;
             case StatType.Stamina:
+                timeElapsed = 0f;
+                endStat = (currentStamina - totalDrain);
+
+                while (timeElapsed < totalTime)
+                {
+                    //Debug.LogError(timeElapsed);
+                    staminaBar.SetValue(currentStamina);
+                    currentStamina = Mathf.Lerp(currentStamina, endStat,
+                        timeElapsed / totalTime);
+
+                    if (Time.timeScale == 0)
+                    {
+                        timeElapsed += Time.unscaledDeltaTime;
+                    }
+                    else
+                    { 
+                        timeElapsed += Time.deltaTime;
+                    }
+                   
+
+                    yield return null;
+                }
+
+        
+                //currentHealth = endStat;
+                staminaBar.SetValue(currentStamina);
                 break;
-            case StatType.Magic:
+            case StatType.Mana:
                 break;
         }
     }
@@ -175,9 +201,9 @@ public void Damage(float amount)
                 currentStamina -= StaminaBuff;
                 StaminaBuff = 0f;
                 break;
-            case StatType.Magic:
-                currentMagic -= MagicBuff;
-                MagicBuff = 0f;
+            case StatType.Mana:
+                currentMana -= ManaBuff;
+                ManaBuff = 0f;
                 break;
         }
     }
@@ -194,9 +220,9 @@ public void Damage(float amount)
                 //currentStamina -= amount;
                 StaminaBuff -= amount;
                 break;
-            case StatType.Magic:
-                //currentMagic -= amount;
-                MagicBuff -= amount;
+            case StatType.Mana:
+                //currentMana -= amount;
+                ManaBuff -= amount;
                 break;
         }
     }
@@ -214,7 +240,7 @@ public void Damage(float amount)
     {
         HealthBuff = 0f;
         StaminaBuff = 0f;
-        MagicBuff = 0f;
+        ManaBuff = 0f;
     }
 
     public void AddBuff(StatType stat, float amount)
@@ -227,8 +253,8 @@ public void Damage(float amount)
             case StatType.Stamina:
                 StaminaBuff += amount;
                 break;
-            case StatType.Magic:
-                MagicBuff += amount;
+            case StatType.Mana:
+                ManaBuff += amount;
                 break;
         }
     }

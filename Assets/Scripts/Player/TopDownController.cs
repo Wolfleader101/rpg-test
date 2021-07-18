@@ -77,7 +77,7 @@ public class TopDownController : MonoBehaviour
     {
         interactionState = InteractionState.Attacking;
         
-       StartCoroutine(_stats.DrainStatOverTime(StatType.Health, 10, 3f));
+       StartCoroutine(_stats.DrainStatOverTime(StatType.Stamina, 10, 2f));
         
         yield return new WaitForSeconds(1f);
         interactionState = InteractionState.None;
