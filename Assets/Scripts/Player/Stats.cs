@@ -16,18 +16,9 @@ public enum StatType
 //     Magic
 // }
 
-public struct CurrentStats
-{
-    public float Health { get; set; }
-
-    public float Stamina { get; set; }
-    
-    public float Magic { get; set; }
-}
-
 public class Stats : MonoBehaviour
 {
-    [SerializeField] private HealthBar healthBar;
+    [SerializeField] private StatsBar healthBar;
     [SerializeField] private float baseHealth = 100f;
     public float BaseHealth => baseHealth;
 
@@ -46,17 +37,13 @@ public class Stats : MonoBehaviour
     [SerializeField] private float currentMagic = 0f;
     public float CurrentMagic => currentMagic;
 
-
-   private CurrentStats _currentStats;
-    public CurrentStats CurrentStats => _currentStats;
+    private float _maxHealth = 0f;
+    private float _maxStamina = 0f;
+    private float _maxMagic = 0f;
 
     private float _healthBuff = 0f;
     private float _staminaBuff = 0f;
     private float _magicBuff = 0f;
-
-
- 
-
 
     private float HealthBuff
     {
@@ -67,7 +54,6 @@ public class Stats : MonoBehaviour
             currentHealth += value;
         }
     }
-
 
     private float StaminaBuff
     {
@@ -92,27 +78,26 @@ public class Stats : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _currentStats.Health = baseHealth + _healthBuff;
+        UpdateMaxHealth(ref _maxHealth, baseHealth, _healthBuff);
+        Debug.Log(_maxHealth);
         
         currentHealth = baseHealth + _healthBuff;
         currentStamina = baseStamina + _staminaBuff;
         currentMagic = baseMagic + _magicBuff;
-        
-        healthBar.SetMaxHealth(currentHealth);
+
+        healthBar.SetMaxValue(currentHealth);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void UpdateMaxHealth(ref float maxValue, float baseValue, float buffValue)
     {
-       
+        maxValue = baseValue + buffValue;
     }
-    
 
-    public void Damage(float amount)
+public void Damage(float amount)
     {
         currentHealth -= amount;
         
-        healthBar.SetHealth(currentHealth);
+        healthBar.SetValue(currentHealth);
 
         if (currentHealth <= 0) Kill();
     }
@@ -149,7 +134,7 @@ public class Stats : MonoBehaviour
                 while (timeElapsed < totalTime)
                 {
                     //Debug.LogError(timeElapsed);
-                    healthBar.SetHealth((float)Mathf.Round(currentHealth * 100f) / 100f);
+                    healthBar.SetValue(currentHealth);
                     currentHealth = Mathf.Lerp(currentHealth, endStat,
                         timeElapsed / totalTime);
 
@@ -168,7 +153,7 @@ public class Stats : MonoBehaviour
 
         
                 //currentHealth = endStat;
-                healthBar.SetHealth((float)Mathf.Round(currentHealth * 100f) / 100f);
+                healthBar.SetValue(currentHealth);
                 
                 break;
             case StatType.Stamina:
@@ -177,7 +162,6 @@ public class Stats : MonoBehaviour
                 break;
         }
     }
-
 
     public void RemoveBuff(StatType stat)
     {
