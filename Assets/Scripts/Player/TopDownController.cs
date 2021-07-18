@@ -83,7 +83,6 @@ public class TopDownController : MonoBehaviour
         interactionState = InteractionState.None;
     }
     
-
     private void FixedUpdate()
     {
         switch (movementState)

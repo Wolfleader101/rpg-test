@@ -12,15 +12,21 @@ public enum StatType
 
 public class Stats : MonoBehaviour
 {
+    #region Stats Bars
 
-    [Header("Stats Bars")]
-    [SerializeField] private StatsBar healthBar;
+    [Header("Stats Bars")] [SerializeField]
+    private StatsBar healthBar;
+
     [SerializeField] private StatsBar staminaBar;
     [SerializeField] private StatsBar manaBar;
 
+    #endregion
+
     #region Base Stats
-    [Header("Base Stats")]
-    [SerializeField] private float baseHealth = 100f;
+
+    [Header("Base Stats")] [SerializeField]
+    private float baseHealth = 100f;
+
     public float BaseHealth => baseHealth;
 
     [SerializeField] private float baseStamina = 100f;
@@ -28,13 +34,26 @@ public class Stats : MonoBehaviour
 
     [SerializeField] private float baseMana = 50f;
     public float BaseMana => baseMana;
-    
+
+    #endregion
+
+    #region Passive Recovery
+
+    [SerializeField] private float healthRecoveryPerSecond = 1.5f;
+    [SerializeField] private float staminaRecoveryPerSecond = 2f;
+    [SerializeField] private float manaRecoveryPerSecond = 2f;
+
+    public bool canRecoverHealth = true;
+    public bool canRecoverStamina = true;
+    public bool canRecoverMana = true;
+
     #endregion
 
     #region Current Stats
-    
-    [Header("Current Stats")]
-    [SerializeField] private float currentHealth = 0f;
+
+    [Header("Current Stats")] [SerializeField]
+    private float currentHealth = 0f;
+
     public float CurrentHealth
     {
         get => currentHealth;
@@ -68,13 +87,12 @@ public class Stats : MonoBehaviour
             manaBar.SetValue(currentMana);
         }
     }
-    
+
     #endregion
 
     #region Max Stats
-    
-    [Header("Max Stats")]
-    [SerializeField] private float maxHealth = 0f;
+
+    [Header("Max Stats")] [SerializeField] private float maxHealth = 0f;
     [SerializeField] private float maxStamina = 0f;
     [SerializeField] private float maxMana = 0f;
 
@@ -87,7 +105,7 @@ public class Stats : MonoBehaviour
             healthBar.SetMaxValue(maxHealth);
         }
     }
-    
+
     private float MaxStamina
     {
         get => maxStamina;
@@ -97,7 +115,7 @@ public class Stats : MonoBehaviour
             staminaBar.SetMaxValue(maxStamina);
         }
     }
-    
+
     private float MaxMana
     {
         get => maxMana;
@@ -112,25 +130,40 @@ public class Stats : MonoBehaviour
 
     #region Stat Buffs
 
-    [Header("Buff Stats")]
-    [SerializeField] private float healthBuff = 0f;
+    [Header("Buff Stats")] [SerializeField]
+    private float healthBuff = 0f;
+
     [SerializeField] private float staminaBuff = 0f;
     [SerializeField] private float manaBuff = 0f;
-    public float HealthBuff { get => healthBuff; private set => healthBuff = value; }
-    
-    public float StaminaBuff { get => staminaBuff; private set => staminaBuff = value; }
 
-    public float ManaBuff { get => manaBuff; private set => manaBuff = value; }
- 
+    public float HealthBuff
+    {
+        get => healthBuff;
+        private set => healthBuff = value;
+    }
+
+    public float StaminaBuff
+    {
+        get => staminaBuff;
+        private set => staminaBuff = value;
+    }
+
+    public float ManaBuff
+    {
+        get => manaBuff;
+        private set => manaBuff = value;
+    }
+
     #endregion
 
     #region Unity Events
-    void Start()
+
+    private void Start()
     {
         MaxHealth = baseHealth + HealthBuff;
         MaxStamina = baseStamina + StaminaBuff;
         MaxMana = baseMana + ManaBuff;
-        
+
         healthBar.SetInitialValue(MaxHealth);
         staminaBar.SetInitialValue(MaxStamina);
         manaBar.SetInitialValue(MaxMana);
@@ -139,7 +172,27 @@ public class Stats : MonoBehaviour
         currentStamina = MaxStamina;
         currentMana = maxMana;
     }
-    
+
+    private void Update()
+    {
+        if (canRecoverHealth && CurrentHealth < MaxHealth)
+        {
+            canRecoverHealth = false;
+            RecoverStatOverTime(StatType.Health);
+        }
+
+        if (canRecoverStamina && CurrentStamina < MaxStamina)
+        {
+            canRecoverStamina = false;
+            RecoverStatOverTime(StatType.Stamina);
+        }
+
+        if (canRecoverMana && CurrentMana < MaxMana)
+        {
+            canRecoverMana = false;
+            RecoverStatOverTime(StatType.Mana);
+        }
+    }
 
     #endregion
 
@@ -169,24 +222,26 @@ public class Stats : MonoBehaviour
                 break;
         }
     }
-    
+
     public void DrainStatOverTime(StatType stat, float totalDrain, float totalTime)
     {
         switch (stat)
         {
             case StatType.Health:
-                StartCoroutine(_DrainStatOverTime(val => CurrentHealth = val, CurrentHealth, totalDrain, totalTime));
+                StartCoroutine(_DrainStatOverTime(val => CurrentHealth = val, CurrentHealth, totalDrain, totalTime
+                ));
                 break;
             case StatType.Stamina:
-                StartCoroutine(_DrainStatOverTime(val => CurrentStamina = val, CurrentStamina, totalDrain, totalTime));
+                StartCoroutine(_DrainStatOverTime(val => CurrentStamina = val, CurrentStamina, totalDrain, totalTime
+                ));
                 break;
             case StatType.Mana:
-                StartCoroutine(_DrainStatOverTime(val => CurrentMana = val, CurrentMana, totalDrain, totalTime));
+                StartCoroutine(_DrainStatOverTime(val => CurrentMana = val, CurrentMana, totalDrain, totalTime
+                ));
                 break;
         }
     }
 
-    
     private IEnumerator _DrainStatOverTime(Action<float> callback, float stat, float totalDrain, float totalTime)
     {
         float timeElapsed = 0f;
@@ -194,8 +249,7 @@ public class Stats : MonoBehaviour
 
         while (timeElapsed < totalTime)
         {
-
-            callback( Mathf.Lerp(stat, endStat,
+            callback(Mathf.Lerp(stat, endStat,
                 timeElapsed / totalTime));
 
             timeElapsed += Time.deltaTime;
@@ -203,29 +257,70 @@ public class Stats : MonoBehaviour
             yield return null;
         }
 
-
         callback(endStat);
     }
 
+    private void RecoverStatOverTime(StatType stat)
+    {
+        switch (stat)
+        {
+            case StatType.Health:
+                StartCoroutine(_RecoverStatOverTime(val => CurrentHealth = val, CurrentHealth, MaxHealth,
+                    healthRecoveryPerSecond, val => canRecoverHealth = true));
+                break;
+            case StatType.Stamina:
+                StartCoroutine(_RecoverStatOverTime(val => CurrentStamina = val, CurrentStamina, MaxStamina,
+                    staminaRecoveryPerSecond, val => canRecoverStamina = true));
+                break;
+            case StatType.Mana:
+                StartCoroutine(_RecoverStatOverTime(val => CurrentMana = val, CurrentMana, MaxMana,
+                    staminaRecoveryPerSecond, val => canRecoverMana = val));
+                break;
+        }
+    }
+
+    private IEnumerator _RecoverStatOverTime(Action<float> callback, float stat, float maxStat, float recoveryPerSecond,
+        Action<bool> canRecover)
+    {
+        float timeElapsed = 0f;
+        float totalTime = (maxStat - stat) / recoveryPerSecond;
+
+        while (timeElapsed < totalTime)
+        {
+            callback(Mathf.Lerp(stat, maxStat,
+                timeElapsed / totalTime));
+
+            timeElapsed += Time.deltaTime;
+
+            yield return null;
+        }
+
+        callback(maxStat);
+        canRecover(true);
+    }
 
     #endregion
-    
+
     #region Buff Methods
+
     private void AddHealthBuff(float value)
     {
         HealthBuff += value;
         MaxHealth += value;
     }
+
     private void AddStaminaBuff(float value)
     {
         StaminaBuff += value;
         MaxStamina += value;
     }
+
     private void AddManaBuff(float value)
     {
         ManaBuff += value;
         MaxMana += value;
     }
+
     public void AddBuff(StatType stat, float value)
     {
         switch (stat)
@@ -241,7 +336,7 @@ public class Stats : MonoBehaviour
                 break;
         }
     }
-    
+
     public void RemoveBuff(StatType stat)
     {
         switch (stat)
@@ -273,17 +368,17 @@ public class Stats : MonoBehaviour
             case StatType.Mana:
                 ManaBuff -= value;
                 MaxMana -= value;
-                
+
                 break;
         }
     }
-    
+
     public void ClearAllBuffs()
     {
         RemoveBuff(StatType.Health, HealthBuff);
         RemoveBuff(StatType.Stamina, StaminaBuff);
         RemoveBuff(StatType.Mana, ManaBuff);
     }
-    
+
     #endregion
 }

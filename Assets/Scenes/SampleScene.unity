@@ -589,9 +589,21 @@ MonoBehaviour:
   baseHealth: 100
   baseStamina: 100
   baseMana: 50
+  healthRecoveryPerSecond: 1.5
+  staminaRecoveryPerSecond: 2
+  manaRecoveryPerSecond: 2
+  canRecoverHealth: 1
+  canRecoverStamina: 1
+  canRecoverMana: 1
   currentHealth: 0
   currentStamina: 0
   currentMana: 0
+  maxHealth: 0
+  maxStamina: 0
+  maxMana: 0
+  healthBuff: 0
+  staminaBuff: 0
+  manaBuff: 0
 --- !u!1001 &2135341091
 PrefabInstance:
   m_ObjectHideFlags: 0
