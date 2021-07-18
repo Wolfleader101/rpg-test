@@ -12,10 +12,12 @@ public enum StatType
 
 public class Stats : MonoBehaviour
 {
-    #region SerializedFields
+
     [SerializeField] private StatsBar healthBar;
     [SerializeField] private StatsBar staminaBar;
     [SerializeField] private StatsBar manaBar;
+
+    #region Base Stats
 
     [SerializeField] private float baseHealth = 100f;
     public float BaseHealth => baseHealth;
@@ -25,7 +27,10 @@ public class Stats : MonoBehaviour
 
     [SerializeField] private float baseMana = 50f;
     public float BaseMana => baseMana;
+    
+    #endregion
 
+    #region Current Stats
     [SerializeField] private float currentHealth = 0f;
     public float CurrentHealth => currentHealth;
 
@@ -37,69 +42,84 @@ public class Stats : MonoBehaviour
     
     #endregion
 
-    #region Private Fields
+    #region Max Stats
+    
     private float _maxHealth = 0f;
     private float _maxStamina = 0f;
     private float _maxMana = 0f;
 
-    private float _healthBuff = 0f;
-    private float _staminaBuff = 0f;
-    private float _manaBuff = 0f;
-
-    private float HealthBuff
+    private float MaxHealth
     {
-        get => _healthBuff;
+        get => _maxHealth;
         set
         {
-            _healthBuff = value;
-            currentHealth += value;
+            _maxHealth = value;
+            healthBar.SetMaxValue(_maxHealth);
+        }
+    }
+    
+    private float MaxStamina
+    {
+        get => _maxStamina;
+        set
+        {
+            _maxStamina = value;
+            staminaBar.SetMaxValue(_maxStamina);
+        }
+    }
+    
+    private float MaxMana
+    {
+        get => _maxMana;
+        set
+        {
+            _maxMana = value;
+            manaBar.SetMaxValue(_maxMana);
         }
     }
 
-    private float StaminaBuff
+    #endregion
+
+    #region Stat Buffs
+    public float HealthBuff { get; set; }
+    public void AddHealthBuff(float value)
     {
-        get => _staminaBuff;
-        set
-        {
-            _staminaBuff = value;
-            currentStamina += value;
-        }
+        HealthBuff += value;
+        MaxHealth += value;
+    }
+    
+    public float StaminaBuff { get; private set; }
+    public void AddStaminaBuff(float value)
+    {
+        StaminaBuff += value;
+        MaxStamina += value;
     }
 
-    private float ManaBuff
+    public float ManaBuff { get; private set; }
+    public void AddManaBuff(float value)
     {
-        get => _manaBuff;
-        set
-        {
-            _manaBuff = value;
-            currentMana += value;
-        }
+        ManaBuff += value;
+        MaxMana += value;
     }
+    
     #endregion
 
     #region Unity Events
     void Start()
     {
-        //UpdateMaxStat(ref _maxHealth, baseHealth, _healthBuff);
-        Debug.Log(_maxHealth);
+        MaxHealth = baseHealth + HealthBuff;
+        MaxStamina = baseStamina + StaminaBuff;
+        MaxMana = baseMana + ManaBuff;
 
-        currentHealth = baseHealth + _healthBuff;
-        currentStamina = baseStamina + _staminaBuff;
-        currentMana = baseMana + _manaBuff;
-
-        healthBar.SetMaxValue(currentHealth);
-        staminaBar.SetMaxValue(currentStamina);
-        manaBar.SetMaxValue(currentMana);
+        currentHealth = _maxHealth;
+        currentStamina = _maxStamina;
+        currentMana = _maxStamina;
     }
     
 
     #endregion
 
     #region Stats Methods
-    private void UpdateMaxStat(ref float maxValue, float baseValue, float buffValue)
-    {
-        maxValue = baseValue + buffValue;
-    }
 
     public void Damage(float amount)
     {
@@ -198,6 +218,11 @@ public class Stats : MonoBehaviour
     #endregion
     
     #region Buff Methods
+
+    public float AddBuff(float currentMaxValue, float bluffValue)
+    {
+        return currentMaxValue + bluffValue;
+    }
     public void RemoveBuff(StatType stat)
     {
         switch (stat)
