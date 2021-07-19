@@ -30,7 +30,7 @@ public enum AttackType
     Gun
 }
 
-[RequireComponent(typeof(Rigidbody2D), typeof(Stats))]
+[RequireComponent(typeof(Rigidbody2D))]
 public class TopDownController : MonoBehaviour
 {
     [SerializeField] private float walkSpeed = 10f;
@@ -41,10 +41,14 @@ public class TopDownController : MonoBehaviour
 
     [SerializeField] private MovementState movementState = MovementState.Idle;
     [SerializeField] private InteractionState interactionState = InteractionState.None;
+
+    [SerializeField] private Stat healthStat;
+    [SerializeField] private Stat StaminaStat;
+    [SerializeField] private Stat ManaStat;
     
 
     private Rigidbody2D _rb;
-    private Stats _stats;
+    //private Stats _stats;
 
     private float _dashCooldownTime = 0f;
     private Vector2 _moveDir = Vector2.zero;
@@ -53,7 +57,7 @@ public class TopDownController : MonoBehaviour
     void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
-        _stats = GetComponent<Stats>();
+        //_stats = GetComponent<Stats>();
 
         _dashCooldownTime = Time.time + dashCooldown;
     }
@@ -77,7 +81,7 @@ public class TopDownController : MonoBehaviour
     {
         interactionState = InteractionState.Attacking;
 
-        _stats.DrainStatOverTime(StatType.Stamina, 10, 2f);
+        //_stats.DrainStatOverTime(StatType.Stamina, 10, 2f);
 
        yield return new WaitForSeconds(1f);
         interactionState = InteractionState.None;
