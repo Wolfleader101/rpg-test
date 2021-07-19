@@ -48,7 +48,7 @@ public class Stat : MonoBehaviour
 
     [SerializeField] private float recoverAfterDrainTime = 3f;
     
-    [SerializeField] RecoveryState recoveryState = RecoveryState.CanRecover;
+    [SerializeField]  RecoveryState recoveryState = RecoveryState.CanRecover;
 
     #endregion
 

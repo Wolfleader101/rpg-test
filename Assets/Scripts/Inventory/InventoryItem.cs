@@ -2,8 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InventoryManager : MonoBehaviour
+public class InventoryItem : MonoBehaviour
 {
+    [field: HideInInspector] public int Position { get; set; }
+    [field: HideInInspector] public bool InHotbar { get; set; }
+
     // Start is called before the first frame update
     void Start()
     {
