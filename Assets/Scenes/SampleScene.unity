@@ -341,6 +341,7 @@ MonoBehaviour:
   dashCooldown: 0.5
   movementState: 0
   interactionState: 0
+  statsManager: {fileID: 2015116440}
 --- !u!212 &1258586546
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -580,6 +581,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2015116436}
+  - component: {fileID: 2015116440}
   - component: {fileID: 2015116437}
   - component: {fileID: 2015116438}
   - component: {fileID: 2015116439}
@@ -664,6 +666,18 @@ MonoBehaviour:
   currentValue: 0
   maxValue: 0
   statBuff: 0
+--- !u!114 &2015116440
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2015116435}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b317e88b5cd6e043963bddb43c30292, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2135341091
 PrefabInstance:
   m_ObjectHideFlags: 0

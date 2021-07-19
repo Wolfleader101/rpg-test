@@ -3,10 +3,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum StatType
+{
+    Health,
+    Stamina,
+    Mana
+}
+
+// potentially use a scriptable object
 public class Stat : MonoBehaviour
 {
-    [SerializeField] private string statName;
-    public string StatName => statName;
+    [SerializeField] private StatType statType;
+    public StatType StatType => statType;
     
     #region Stat Bar
 
@@ -43,7 +51,7 @@ public class Stat : MonoBehaviour
         get => currentValue;
         private set
         {
-            CurrentValue = value;
+            currentValue = value;
             statBar.SetValue(CurrentValue);
         }
     }

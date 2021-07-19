@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Interactions;
@@ -42,13 +43,11 @@ public class TopDownController : MonoBehaviour
     [SerializeField] private MovementState movementState = MovementState.Idle;
     [SerializeField] private InteractionState interactionState = InteractionState.None;
 
-    [SerializeField] private Stat healthStat;
-    [SerializeField] private Stat StaminaStat;
-    [SerializeField] private Stat ManaStat;
+    [SerializeField] private StatsManager statsManager;
+    
     
 
     private Rigidbody2D _rb;
-    //private Stats _stats;
 
     private float _dashCooldownTime = 0f;
     private Vector2 _moveDir = Vector2.zero;
@@ -58,9 +57,16 @@ public class TopDownController : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody2D>();
         //_stats = GetComponent<Stats>();
+        if (statsManager == null)
+        {
+            statsManager = transform.GetComponentInChildren<StatsManager>();
+            if (statsManager == null) throw new Exception("StatsManager could not be found in component");
+        }
 
         _dashCooldownTime = Time.time + dashCooldown;
     }
+
+
 
     // Update is called once per frame
     void Update()
