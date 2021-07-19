@@ -34,6 +34,8 @@ public class Stat : MonoBehaviour
 
     #region Passive Recovery
 
+    // TODO fix up passive recovery system, right now it is broken
+    
     [Header("Passive Recovery")]
     [SerializeField] private float recoveryPerSecond = 4f;
 
@@ -115,6 +117,8 @@ public class Stat : MonoBehaviour
     
     public void DrainStat(float amount)
     {
+        _canRecover = false;
+        
         CurrentValue -= amount;
         
         StartCoroutine(CanRecoverAfterDrain());

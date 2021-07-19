@@ -62,7 +62,7 @@ public class StatsManager : MonoBehaviour
                 heatlhStat.DrainStatOverTime(totalDrain, totalTime);
                 break;
             case StatType.Stamina:
-                staminaStat.DrainStatOverTime(totalDrain, totalDrain);
+                staminaStat.DrainStatOverTime(totalDrain, totalTime);
                 break;
             case StatType.Mana:
                 manaStat.DrainStatOverTime(totalDrain, totalTime);
