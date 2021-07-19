@@ -56,7 +56,6 @@ public class TopDownController : MonoBehaviour
     void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
-        //_stats = GetComponent<Stats>();
         if (statsManager == null)
         {
             statsManager = transform.GetComponentInChildren<StatsManager>();

@@ -618,7 +618,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3bcc4bf13de1bf94eb63b4cf8b4b65ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  statName: Health
+  statType: 0
   statBar: {fileID: 1041303363}
   baseValue: 100
   recoveryPerSecond: 4
@@ -638,7 +638,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3bcc4bf13de1bf94eb63b4cf8b4b65ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  statName: Stamina
+  statType: 1
   statBar: {fileID: 704567940}
   baseValue: 100
   recoveryPerSecond: 4
@@ -658,7 +658,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3bcc4bf13de1bf94eb63b4cf8b4b65ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  statName: Mana
+  statType: 2
   statBar: {fileID: 473013209}
   baseValue: 100
   recoveryPerSecond: 4
@@ -678,6 +678,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b317e88b5cd6e043963bddb43c30292, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stats:
+  - {fileID: 2015116437}
+  - {fileID: 2015116438}
+  - {fileID: 2015116439}
 --- !u!1001 &2135341091
 PrefabInstance:
   m_ObjectHideFlags: 0

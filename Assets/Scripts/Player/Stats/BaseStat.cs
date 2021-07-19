@@ -66,7 +66,7 @@ using UnityEngine;
 //     #region Stat Buff
 //
 //     [field: Header("Stat Buff")]
-//     public float StatBuff { get; set; } = 0f;
+//     public float Buff { get; set; } = 0f;
 //
 //     #endregion
 //

@@ -37,7 +37,9 @@ public class Stat : MonoBehaviour
     [Header("Passive Recovery")]
     [SerializeField] private float recoveryPerSecond = 4f;
 
-    public bool canRecover = true;
+    [SerializeField] private float recoverAfterDrainTime = 3f;
+
+    private bool _canRecover = true;
 
     #endregion
 
@@ -77,12 +79,12 @@ public class Stat : MonoBehaviour
     #region Stat Buff
 
     [Header("Stat Buff")]
-    [SerializeField] private float statBuff = 0f;
+    [SerializeField] private float buff = 0f;
 
-    public float StatBuff
+    public float Buff
     {
-        get => statBuff;
-        private set => statBuff = value;
+        get => buff;
+        private set => buff = value;
     }
     
     #endregion
@@ -91,7 +93,7 @@ public class Stat : MonoBehaviour
 
     private void Start()
     {
-        MaxValue = baseValue + statBuff;
+        MaxValue = baseValue + buff;
 
         statBar.SetInitialValue(MaxValue);
 
@@ -100,9 +102,9 @@ public class Stat : MonoBehaviour
 
     private void Update()
     {
-        if (canRecover && currentValue < maxValue)
+        if (_canRecover && currentValue < maxValue)
         {
-            canRecover = false;
+            _canRecover = false;
             RecoverStatOverTime();
         }
     }
@@ -114,10 +116,13 @@ public class Stat : MonoBehaviour
     public void DrainStat(float amount)
     {
         CurrentValue -= amount;
+        
+        StartCoroutine(CanRecoverAfterDrain());
     }
-
+    
     public void DrainStatOverTime(float totalDrain, float totalTime)
     {
+        _canRecover = false;
         StartCoroutine(DrainStatOverTime(val => CurrentValue = val, CurrentValue, totalDrain, totalTime
         ));
     }
@@ -133,21 +138,28 @@ public class Stat : MonoBehaviour
                 timeElapsed / totalTime));
 
             timeElapsed += Time.deltaTime;
-
+            
             yield return null;
+            
         }
 
         callback(endStat);
+
+        StartCoroutine(CanRecoverAfterDrain());
     }
 
+    private IEnumerator CanRecoverAfterDrain()
+    {
+        yield return new WaitForSeconds(recoverAfterDrainTime);
+        _canRecover = true;
+    }
+    
     private void RecoverStatOverTime()
     {
-        StartCoroutine(_RecoverStatOverTime(val => CurrentValue = val, CurrentValue, MaxValue,
-            recoveryPerSecond, val => canRecover = true));
+        StartCoroutine(_RecoverStatOverTime(val => CurrentValue = val, CurrentValue, MaxValue));
     }
 
-    private IEnumerator _RecoverStatOverTime(Action<float> callback, float stat, float maxStat, float recoveryPerSecond,
-        Action<bool> canRecover)
+    private IEnumerator _RecoverStatOverTime(Action<float> callback, float stat, float maxStat)
     {
         float timeElapsed = 0f;
         float totalTime = (maxStat - stat) / recoveryPerSecond;
@@ -163,7 +175,7 @@ public class Stat : MonoBehaviour
         }
 
         callback(maxStat);
-        canRecover(true);
+        _canRecover = true;
     }
 
     #endregion
@@ -172,21 +184,20 @@ public class Stat : MonoBehaviour
 
     public void AddBuff(float value)
     {
-        StatBuff += value;
+        Buff += value;
         MaxValue += value;
         
     }
 
     public void RemoveBuff()
     {
-        RemoveBuff(StatBuff);
+        RemoveBuff(Buff);
     }
 
     public void RemoveBuff(float value)
     {                
-        StatBuff -= value;
+        Buff -= value;
         MaxValue -= value;
-
     }
 
     #endregion
