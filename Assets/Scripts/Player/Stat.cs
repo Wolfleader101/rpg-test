@@ -10,24 +10,31 @@ public enum StatType
     Mana
 }
 
+public enum RecoveryState
+{
+    CantRecover,
+    Recovering,
+    CanRecover
+}
+
 // potentially use a scriptable object
 public class Stat : MonoBehaviour
 {
     [SerializeField] private StatType statType;
     public StatType StatType => statType;
-    
+
     #region Stat Bar
 
-    [Header("Stats Bars")]
-
-    [SerializeField] private StatsBar statBar;
+    [Header("Stats Bars")] [SerializeField]
+    private StatsBar statBar;
 
     #endregion
 
     #region Base Value
 
-    [Header("Base Stats")] 
-    [SerializeField] private float baseValue = 100f;
+    [Header("Base Stats")] [SerializeField]
+    private float baseValue = 100f;
+
     public float BaseValue => baseValue;
 
     #endregion
@@ -35,21 +42,21 @@ public class Stat : MonoBehaviour
     #region Passive Recovery
 
     // TODO fix up passive recovery system, right now it is broken
-    
-    [Header("Passive Recovery")]
-    [SerializeField] private float recoveryPerSecond = 4f;
+
+    [Header("Passive Recovery")] [SerializeField]
+    private float recoveryPerSecond = 4f;
 
     [SerializeField] private float recoverAfterDrainTime = 3f;
-
-    private bool _canRecover = true;
+    
+    [SerializeField] RecoveryState recoveryState = RecoveryState.CanRecover;
 
     #endregion
 
     #region Current Stat
 
-    [Header("Current Stats")]
-    
-    [SerializeField] private float currentValue = 0f;
+    [Header("Current Stats")] [SerializeField]
+    private float currentValue = 0f;
+
     public float CurrentValue
     {
         get => currentValue;
@@ -59,13 +66,12 @@ public class Stat : MonoBehaviour
             statBar.SetValue(CurrentValue);
         }
     }
-    
+
     #endregion
 
     #region Max Stat
 
-    [Header("Max Stats")] 
-    [SerializeField] private float maxValue = 0f;
+    [Header("Max Stats")] [SerializeField] private float maxValue = 0f;
 
     private float MaxValue
     {
@@ -76,19 +82,19 @@ public class Stat : MonoBehaviour
             statBar.SetMaxValue(maxValue);
         }
     }
+
     #endregion
 
     #region Stat Buff
 
-    [Header("Stat Buff")]
-    [SerializeField] private float buff = 0f;
+    [Header("Stat Buff")] [SerializeField] private float buff = 0f;
 
     public float Buff
     {
         get => buff;
         private set => buff = value;
     }
-    
+
     #endregion
 
     #region Unity Events
@@ -104,9 +110,9 @@ public class Stat : MonoBehaviour
 
     private void Update()
     {
-        if (_canRecover && currentValue < maxValue)
+        if (recoveryState == RecoveryState.CanRecover && currentValue < maxValue)
         {
-            _canRecover = false;
+            recoveryState = RecoveryState.Recovering;
             RecoverStatOverTime();
         }
     }
@@ -114,19 +120,19 @@ public class Stat : MonoBehaviour
     #endregion
 
     #region Stats Methods
-    
+
     public void DrainStat(float amount)
     {
-        _canRecover = false;
-        
+        recoveryState = RecoveryState.CantRecover;
+
         CurrentValue -= amount;
-        
+
         StartCoroutine(CanRecoverAfterDrain());
     }
-    
+
     public void DrainStatOverTime(float totalDrain, float totalTime)
     {
-        _canRecover = false;
+        recoveryState = RecoveryState.CantRecover;
         StartCoroutine(DrainStatOverTime(val => CurrentValue = val, CurrentValue, totalDrain, totalTime
         ));
     }
@@ -142,9 +148,8 @@ public class Stat : MonoBehaviour
                 timeElapsed / totalTime));
 
             timeElapsed += Time.deltaTime;
-            
+
             yield return null;
-            
         }
 
         callback(endStat);
@@ -155,9 +160,9 @@ public class Stat : MonoBehaviour
     private IEnumerator CanRecoverAfterDrain()
     {
         yield return new WaitForSeconds(recoverAfterDrainTime);
-        _canRecover = true;
+        recoveryState = RecoveryState.CanRecover;
     }
-    
+
     private void RecoverStatOverTime()
     {
         StartCoroutine(_RecoverStatOverTime(val => CurrentValue = val, CurrentValue, MaxValue));
@@ -168,7 +173,7 @@ public class Stat : MonoBehaviour
         float timeElapsed = 0f;
         float totalTime = (maxStat - stat) / recoveryPerSecond;
 
-        while (timeElapsed < totalTime)
+        while (timeElapsed < totalTime && recoveryState == RecoveryState.Recovering)
         {
             callback(Mathf.Lerp(stat, maxStat,
                 timeElapsed / totalTime));
@@ -177,9 +182,16 @@ public class Stat : MonoBehaviour
 
             yield return null;
         }
-
-        callback(maxStat);
-        _canRecover = true;
+        
+        if (recoveryState == RecoveryState.Recovering)
+        {
+            callback(maxStat);
+            recoveryState = RecoveryState.CanRecover;
+        }
+        else
+        {
+            recoveryState = RecoveryState.CantRecover;
+        }
     }
 
     #endregion
@@ -190,7 +202,6 @@ public class Stat : MonoBehaviour
     {
         Buff += value;
         MaxValue += value;
-        
     }
 
     public void RemoveBuff()
@@ -199,7 +210,7 @@ public class Stat : MonoBehaviour
     }
 
     public void RemoveBuff(float value)
-    {                
+    {
         Buff -= value;
         MaxValue -= value;
     }

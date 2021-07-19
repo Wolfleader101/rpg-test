@@ -622,10 +622,11 @@ MonoBehaviour:
   statBar: {fileID: 1041303363}
   baseValue: 100
   recoveryPerSecond: 4
-  canRecover: 1
+  recoverAfterDrainTime: 3
+  recoveryState: 2
   currentValue: 0
   maxValue: 0
-  statBuff: 0
+  buff: 0
 --- !u!114 &2015116438
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -642,10 +643,11 @@ MonoBehaviour:
   statBar: {fileID: 704567940}
   baseValue: 100
   recoveryPerSecond: 4
-  canRecover: 1
+  recoverAfterDrainTime: 3
+  recoveryState: 2
   currentValue: 0
   maxValue: 0
-  statBuff: 0
+  buff: 0
 --- !u!114 &2015116439
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -662,10 +664,11 @@ MonoBehaviour:
   statBar: {fileID: 473013209}
   baseValue: 100
   recoveryPerSecond: 4
-  canRecover: 1
+  recoverAfterDrainTime: 3
+  recoveryState: 2
   currentValue: 0
   maxValue: 0
-  statBuff: 0
+  buff: 0
 --- !u!114 &2015116440
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -682,6 +685,9 @@ MonoBehaviour:
   - {fileID: 2015116437}
   - {fileID: 2015116438}
   - {fileID: 2015116439}
+  heatlhStat: {fileID: 0}
+  staminaStat: {fileID: 0}
+  manaStat: {fileID: 0}
 --- !u!1001 &2135341091
 PrefabInstance:
   m_ObjectHideFlags: 0
