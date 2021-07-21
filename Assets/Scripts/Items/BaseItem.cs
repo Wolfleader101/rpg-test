@@ -6,8 +6,13 @@ public enum ItemType
 {
     Weapon,
     Tool,
+    Clothing,
+    Armour,
     Potion,
-    Food
+    Food,
+    Material,
+    Collectible,
+    Misc
 }
 [CreateAssetMenu(fileName = "Item", menuName = "ScriptableObjects/Item")]
 public class BaseItem : ScriptableObject
@@ -21,6 +26,13 @@ public class BaseItem : ScriptableObject
     [SerializeField, Multiline] private string description;
     public string Description => description;
 
-    [SerializeField] private Sprite sprite;
-    public Sprite Sprite => sprite;
+    [SerializeField] private int stackSize = 32;
+    public int StackSize => stackSize;
+    
+    // set to public so InventoryManager can manage stackSize
+    public bool canStack = true;
+
+    // [SerializeField] private Sprite sprite;
+    // public Sprite Sprite => sprite;
+    
 }
