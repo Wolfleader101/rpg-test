@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using ScriptableObjects.Inventory;
+using ScriptableObjects.Items;
 using UnityEngine;
 
 public class InventoryManager : MonoBehaviour
@@ -16,7 +18,7 @@ public class InventoryManager : MonoBehaviour
     public void AddItem (BaseItem item)
     {
         if (inventory.AddItem(item))
-            Debug.Log ($"Added {item.name} successfully");
+            Debug.Log ($"Added {item.name} of type {item.GetType()} successfully");
         else
             Debug.Log($"Not enough room for {item.name}");
     }
