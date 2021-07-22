@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace ScriptableObjects.Items.Potions
+namespace ScriptableObjects.Items
 {
     [CreateAssetMenu(fileName = "Potion", menuName = "Item/Potion")]
     public class Potion : BaseItem
