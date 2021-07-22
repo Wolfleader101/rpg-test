@@ -142,9 +142,17 @@ public class TopDownController : MonoBehaviour
         }
         else
         {
-            if (movementState == MovementState.Dashing) return;
-
-            movementState = context.performed ? MovementState.Walking : MovementState.Idle;
+            switch (movementState)
+            {
+                case MovementState.Dashing:
+                    return;
+                case MovementState.Sprinting: // need to fix this
+                    movementState = context.performed ? MovementState.Sprinting : MovementState.Idle;
+                    return;
+                default:
+                    movementState = context.performed ? MovementState.Walking : MovementState.Idle;
+                    break;
+            }
         }
     }
 
@@ -152,7 +160,7 @@ public class TopDownController : MonoBehaviour
     {
         if (movementState == MovementState.Walking || movementState == MovementState.Sprinting)
             movementState = context.performed ? MovementState.Sprinting : MovementState.Walking;
-    }
+    }   
 
     public void OnAttack(InputAction.CallbackContext context)
     {
