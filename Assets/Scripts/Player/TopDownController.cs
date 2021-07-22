@@ -51,6 +51,7 @@ public class TopDownController : MonoBehaviour
 
     private float _dashCooldownTime = 0f;
     private Vector2 _moveDir = Vector2.zero;
+    private bool _wasSprinting = false;
 
     // Start is called before the first frame update
     void Start()
@@ -142,17 +143,18 @@ public class TopDownController : MonoBehaviour
         }
         else
         {
-            switch (movementState)
+          if (movementState == MovementState.Dashing) return;
+                
+            if(movementState == MovementState.Sprinting) _wasSprinting = true;
+
+            if (_wasSprinting && context.performed)
             {
-                case MovementState.Dashing:
-                    return;
-                case MovementState.Sprinting: // need to fix this
-                    movementState = context.performed ? MovementState.Sprinting : MovementState.Idle;
-                    return;
-                default:
-                    movementState = context.performed ? MovementState.Walking : MovementState.Idle;
-                    break;
+                movementState = context.performed ? MovementState.Sprinting : MovementState.Idle;
+                _wasSprinting = false;
+                return;
             }
+
+            movementState = context.performed ? MovementState.Walking : MovementState.Idle;
         }
     }
 
@@ -160,7 +162,7 @@ public class TopDownController : MonoBehaviour
     {
         if (movementState == MovementState.Walking || movementState == MovementState.Sprinting)
             movementState = context.performed ? MovementState.Sprinting : MovementState.Walking;
-    }   
+    }
 
     public void OnAttack(InputAction.CallbackContext context)
     {
