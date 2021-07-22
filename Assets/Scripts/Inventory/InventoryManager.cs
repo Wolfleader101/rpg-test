@@ -4,18 +4,20 @@ using UnityEngine;
 
 public class InventoryManager : MonoBehaviour
 {
-    private List<ItemHandler> _items;
-    public List<ItemHandler> Items => _items;
+    [SerializeField] private Inventory inventory;
+    public Inventory Inventory => inventory;
     
     // Start is called before the first frame update
     void Start()
     {
-        _items = new List<ItemHandler>();
+        inventory.Init();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void AddItem (BaseItem item)
     {
-        
+        if (inventory.AddItem(item))
+            Debug.Log ($"Added {item.name} successfully");
+        else
+            Debug.Log($"Not enough room for {item.name}");
     }
 }

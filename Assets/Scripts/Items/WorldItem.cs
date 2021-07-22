@@ -1,0 +1,34 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+[RequireComponent(typeof(SpriteRenderer), typeof(Rigidbody2D), typeof(BoxCollider2D))]
+public class WorldItem : MonoBehaviour
+{
+    [SerializeField] private BaseItem item;
+    
+    // Start is called before the first frame update
+    void Start()
+    {
+        gameObject.GetComponent<SpriteRenderer>().sprite = item.Sprite;
+        gameObject.GetComponent<Collider2D>().isTrigger = true;
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
+    
+    private void OnTriggerEnter2D(Collider2D collider)
+    {
+        var colliderGameObject = collider.gameObject;
+        var inventoryManager = colliderGameObject.GetComponent<InventoryManager>();
+        if (inventoryManager == null) inventoryManager = colliderGameObject.GetComponentInChildren<InventoryManager>();
+        
+        inventoryManager.AddItem(item);
+        
+        Destroy(this.gameObject);
+    }
+}
