@@ -14,8 +14,6 @@ namespace ScriptableObjects.Items
         [SerializeField] private int maxStackSize = 32;
         public int MaxStackSize => maxStackSize;
     
-        // set to public so InventoryManager can manage stackSize
-        public bool canStack = true;
 
         [SerializeField] private Sprite sprite;
         public Sprite Sprite => sprite;

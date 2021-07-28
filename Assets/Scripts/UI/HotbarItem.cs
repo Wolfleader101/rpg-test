@@ -1,13 +1,16 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using ScriptableObjects.Items;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class HotbarItem : MonoBehaviour
 {
-    public event Action<int> OnButtonClicked;
+    [HideInInspector] public event Action<int> OnButtonClicked;
+    [HideInInspector] public BaseItem currentItem;
+    [HideInInspector] public int itemCount;
     
     private int _keyNumber;
 
