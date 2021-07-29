@@ -8,10 +8,10 @@ using UnityEngine.UI;
 
 public class Hotbar : MonoBehaviour
 {
-    [SerializeField]private Inventory inventory;
-    
+    [SerializeField] private Inventory inventory;
+
     private GameObject _currentSelectedButton;
-   
+
     private void Awake()
     {
         foreach (var button in GetComponentsInChildren<HotbarItem>())
@@ -24,30 +24,43 @@ public class Hotbar : MonoBehaviour
 
     private void OnButtonClicked(int buttonNumber)
     {
-       if(_currentSelectedButton != null) _currentSelectedButton.transform.Find("Selected").gameObject.SetActive(false);
-        
+        if (_currentSelectedButton != null)
+            _currentSelectedButton.transform.Find("Selected").gameObject.SetActive(false);
+
         _currentSelectedButton = transform.Find($"Hotbar Item {buttonNumber}").gameObject;
-        
+
         _currentSelectedButton.transform.Find("Selected").gameObject.SetActive(true);
     }
 
     private void AddItem(BaseItem item, int itemCount)
     {
-        Dictionary<BaseItem, int> queuedItems = new Dictionary<BaseItem, int>();
-        
+        //Dictionary<BaseItem, int> queuedItems = new Dictionary<BaseItem, int>();
+
         foreach (var button in GetComponentsInChildren<HotbarItem>())
         {
+            // if (itemCount > item.MaxStackSize)
+            // {
+            //     queuedItems.Add(item, (item.MaxStackSize - itemCount));
+            // }
+
             if (button.currentItem == null)
             {
+                // if (queuedItems.Count > 0)
+                // {
+                //     queuedItems.Remove(item);
+                //     continue;
+                // }
+
                 button.AddItem(item, itemCount);
                 return;
             }
 
             if (button.currentItem == item)
             {
+                // ye nah i shouldnt be handing this logic here :facepalm: thats what Inventory is for lmao
                 bool canIncrement = button.IncrementCount(itemCount);
                 if (canIncrement) return;
-                
+
                 // THIS SYSTEM BEST WORKS WHEN TRYING TO MASS ADD ITEMS
                 // if it can't increment then add it to next slot
                 // to do this i will implement a queue system
@@ -58,8 +71,6 @@ public class Hotbar : MonoBehaviour
                 // if by end of the foreach loop there is no slot for it,
                 // then drop item
             }
-
         }
     }
-
 }

@@ -35,7 +35,6 @@ public class HotbarItem : MonoBehaviour
         itemObj.SetActive(true);
 
         currentItem = item;
-        // should probably do some sort of check to see if the count is greater than maxStackSize...
         itemCount = count;
 
     }
