@@ -26,7 +26,10 @@ namespace ScriptableObjects.Inventory
             if (!_items.ContainsKey(item))
             {
                 if (_items.Count >= maxCapacity) return false;
-                _items.Add(item, 1);
+                _items.Add(item, 1); 
+                // going to have issues with the item count being different from the actual UI count
+                // really I should be doing item countChecks here
+                // and knowing if there are multiple stacks
                 OnItemAdded?.Invoke(item, _items[item]);
                 return true;
             }
