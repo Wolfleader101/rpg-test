@@ -9,7 +9,7 @@ using UnityEngine.UI;
 public class HotbarItem : MonoBehaviour
 {
     [HideInInspector] public event Action<int> OnButtonClicked;
-    [HideInInspector] public BaseItem currentItem;
+    [HideInInspector] public BaseItem currentItem { get; private set; }
     [HideInInspector] public int itemCount;
     
     private int _keyNumber;
@@ -26,13 +26,16 @@ public class HotbarItem : MonoBehaviour
         GetComponent<Button>().onClick.AddListener(HandleClick);
     }
 
-
-
-    // Update is called once per frame
-    void Update()
+    public void AddItem(BaseItem item, int count)
     {
+        
     }
 
+    public bool IncrementCount(int count)
+    {
+
+        return true;
+    }
     private void HandleClick()
     {
         OnButtonClicked?.Invoke(_keyNumber);

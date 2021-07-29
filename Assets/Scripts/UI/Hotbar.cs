@@ -33,11 +33,29 @@ public class Hotbar : MonoBehaviour
 
     private void AddItem(BaseItem item, int itemCount)
     {
+        Dictionary<BaseItem, int> queuedItems = new Dictionary<BaseItem, int>();
         foreach (var button in GetComponentsInChildren<HotbarItem>())
         {
-            
-            if(button.currentItem != item) continue;
+            if (button.currentItem == null)
+            {
+                button.AddItem(item, itemCount);
+                return;
+            }
 
+            if (button.currentItem == item)
+            {
+                bool canIncrement = button.IncrementCount(itemCount);
+                if (canIncrement) return;
+                
+                // if it can't increment then add it to next slot
+                // to do this i will implement a queue system
+                // it will add an item to the queue
+                // on next for each check if the slot is empty AND THERE IS QUEUED ITEM/S
+                // if so add it to that slot and remove it from queued items
+                // otherwise continue
+                // if by end of the foreach loop there is no slot for it,
+                // then drop item
+            }
 
         }
     }
