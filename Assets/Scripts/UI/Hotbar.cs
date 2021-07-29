@@ -34,6 +34,7 @@ public class Hotbar : MonoBehaviour
     private void AddItem(BaseItem item, int itemCount)
     {
         Dictionary<BaseItem, int> queuedItems = new Dictionary<BaseItem, int>();
+        
         foreach (var button in GetComponentsInChildren<HotbarItem>())
         {
             if (button.currentItem == null)
@@ -47,6 +48,7 @@ public class Hotbar : MonoBehaviour
                 bool canIncrement = button.IncrementCount(itemCount);
                 if (canIncrement) return;
                 
+                // THIS SYSTEM BEST WORKS WHEN TRYING TO MASS ADD ITEMS
                 // if it can't increment then add it to next slot
                 // to do this i will implement a queue system
                 // it will add an item to the queue

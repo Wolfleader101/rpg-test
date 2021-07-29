@@ -9,7 +9,7 @@ using UnityEngine.UI;
 public class HotbarItem : MonoBehaviour
 {
     [HideInInspector] public event Action<int> OnButtonClicked;
-    [HideInInspector] public BaseItem currentItem { get; private set; }
+    [HideInInspector] public BaseItem currentItem { get; set; }
     [HideInInspector] public int itemCount;
     
     private int _keyNumber;
@@ -28,12 +28,23 @@ public class HotbarItem : MonoBehaviour
 
     public void AddItem(BaseItem item, int count)
     {
+        var itemObj = gameObject.transform.Find("Item").gameObject;
+        var img = itemObj.GetComponent<Image>();
+        img.sprite = item.Sprite;
         
+        itemObj.SetActive(true);
+
+        currentItem = item;
+        // should probably do some sort of check to see if the count is greater than maxStackSize...
+        itemCount = count;
+
     }
 
     public bool IncrementCount(int count)
     {
-
+        if (itemCount == currentItem.MaxStackSize) return false;
+        if ((itemCount += count) == currentItem.MaxStackSize) return false;
+        
         return true;
     }
     private void HandleClick()
