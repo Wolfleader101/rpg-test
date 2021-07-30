@@ -8,6 +8,7 @@ using UnityEngine;
 public class WorldItem : MonoBehaviour
 {
     [SerializeField] private BaseItem item;
+    [SerializeField] private int itemCount = 1;
     
     // Start is called before the first frame update
     void Start()
@@ -28,7 +29,7 @@ public class WorldItem : MonoBehaviour
         var inventoryManager = colliderGameObject.GetComponent<InventoryManager>();
         if (inventoryManager == null) inventoryManager = colliderGameObject.GetComponentInChildren<InventoryManager>();
         
-        inventoryManager.AddItem(item);
+        inventoryManager.AddItem(item, itemCount);
         
         Destroy(this.gameObject);
     }

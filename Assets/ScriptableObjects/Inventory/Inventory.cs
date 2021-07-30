@@ -21,12 +21,12 @@ namespace ScriptableObjects.Inventory
             _items = new Dictionary<BaseItem, int>(maxCapacity);
         }
 
-        public bool AddItem(BaseItem item)
+        public bool AddItem(BaseItem item, int itemCount)
         {
             if (!_items.ContainsKey(item))
             {
                 if (_items.Count >= maxCapacity) return false;
-                _items.Add(item, 1); 
+                _items.Add(item, itemCount); 
                 // going to have issues with the item count being different from the actual UI count
                 // really I should be doing item countChecks here
                 // and knowing if there are multiple stacks
@@ -35,7 +35,7 @@ namespace ScriptableObjects.Inventory
             }
 
             if (_items[item] >= item.MaxStackSize) return false;
-            ++_items[item];
+            _items[item] += itemCount;
             OnItemAdded?.Invoke(item, _items[item]);
             return true;
         }

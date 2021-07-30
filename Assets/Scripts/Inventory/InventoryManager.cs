@@ -15,9 +15,9 @@ public class InventoryManager : MonoBehaviour
         inventory.Init();
     }
 
-    public void AddItem (BaseItem item)
+    public void AddItem (BaseItem item, int itemCount)
     {
-        if (inventory.AddItem(item))
+        if (inventory.AddItem(item, itemCount))
             Debug.Log ($"Added {item.name} of type {item.GetType()} successfully");
         else
             Debug.Log($"Not enough room for {item.name}");
