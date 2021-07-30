@@ -21,6 +21,7 @@ public class Hotbar : MonoBehaviour
         }
 
         inventory.OnItemAdded += AddItem;
+        inventory.OnItemRemoved += ItemRemoved;
     }
 
     private void OnButtonClicked(int buttonNumber)
@@ -50,7 +51,7 @@ public class Hotbar : MonoBehaviour
                     item, item.MaxStackSize
                 }
             });
-            
+
             Debug.Log($"{itemCount} Added Queued Item {item.MaxStackSize}");
             itemCount -= item.MaxStackSize;
         }
@@ -75,12 +76,13 @@ public class Hotbar : MonoBehaviour
                     queuedItems.Remove(queuedItem);
                     break;
                 }
+
                 continue;
             }
 
             // if slots item is not current item AND if its already at max cap
             if (button.currentItem != item && button.itemCount >= button.currentItem.MaxStackSize) continue;
-            
+
             foreach (var queuedItem in queuedItems)
             {
                 var incrementRem = button.IncrementCount(queuedItem[item]);
@@ -95,11 +97,18 @@ public class Hotbar : MonoBehaviour
             }
         }
 
+  
+        
         // if item could not be added
-        // drop the item
-        //DropItem(Item, itemCount);
+        // NOTE THIS SHOULD NEVER HAPPEN
+        // Inventory maxCapacity should trigger Inventory method to return false
+        
+        // remove count from Inventory (will invoke RemoveItemEvent, which will drop item)
+        //inventory.RemoveItem(item, itemCount);
+    }
 
-        // remove count from Inventory
-        inventory.RemoveItem(item, itemCount);
+    private void ItemRemoved(BaseItem item, int itemCount)
+    {
+        
     }
 }
