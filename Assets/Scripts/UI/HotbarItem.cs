@@ -39,12 +39,14 @@ public class HotbarItem : MonoBehaviour
 
     }
 
-    public bool IncrementCount(int count)
+    public int IncrementCount(int count)
     {
-        if (itemCount == currentItem.MaxStackSize) return false;
-        if ((itemCount += count) == currentItem.MaxStackSize) return false;
+        if (itemCount == currentItem.MaxStackSize) return count;
+        int maxIncrement = currentItem.MaxStackSize - itemCount; 
+        int clamped = Mathf.Clamp(count, 1, maxIncrement);
         
-        return true;
+        itemCount += clamped;
+        return count - clamped;
     }
     private void HandleClick()
     {

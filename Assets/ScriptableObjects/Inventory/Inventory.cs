@@ -39,5 +39,21 @@ namespace ScriptableObjects.Inventory
             OnItemAdded?.Invoke(item, _items[item]);
             return true;
         }
+
+        public void RemoveItem(BaseItem item, int count)
+        {
+            if (!_items.ContainsKey(item)) return;
+
+            if (_items[item] - count <= 0)
+            {
+                _items.Remove(item);
+                OnItemRemoved?.Invoke(item, count);
+                return;
+            }
+
+            _items[item] -= count;
+            OnItemRemoved?.Invoke(item, count);
+            return;
+        }
     }
 }
