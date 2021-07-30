@@ -30,13 +30,13 @@ namespace ScriptableObjects.Inventory
                 // going to have issues with the item count being different from the actual UI count
                 // really I should be doing item countChecks here
                 // and knowing if there are multiple stacks
-                OnItemAdded?.Invoke(item, _items[item]);
+                OnItemAdded?.Invoke(item, itemCount);
                 return true;
             }
 
-            if (_items[item] >= item.MaxStackSize) return false;
+            //if (_items[item] >= item.MaxStackSize) return false;
             _items[item] += itemCount;
-            OnItemAdded?.Invoke(item, _items[item]);
+            OnItemAdded?.Invoke(item, itemCount);
             return true;
         }
 

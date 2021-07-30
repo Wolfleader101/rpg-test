@@ -53,71 +53,59 @@ public class Hotbar : MonoBehaviour
                     item, item.MaxStackSize
                 }
             });
+            Debug.Log($"{itemCount} Added Queued Item {item.MaxStackSize}");
             itemCount = itemCount - item.MaxStackSize;
         }
 
-        Debug.Log($"Added {queuedItems.Count}x Items to Queue");
-        Debug.Log($"Added Items {itemCount}");
+        queuedItems.Add(new Dictionary<BaseItem, int>()
+        {
+            {
+                item, itemCount
+            }
+        });
 
 
         foreach (var button in hotbarItems)
         {
             if (button.currentItem == null)
             {
-                if (queuedItems.Count > 0)
+                // Debug.Log($"Queued item count : {queuedItems.Count}");
+                foreach (var queuedItem in queuedItems.Where(queuedItem => queuedItem.ContainsKey(item)))
                 {
-                    foreach (var queuedItem in queuedItems)
-                    {
-                        if (!queuedItem.ContainsKey(item)) continue;
-                        button.AddItem(item, queuedItem[item]);
-                        queuedItems.Remove(queuedItem);
-                        break;
-                    }
-                    continue;
+                    // Debug.Log($"Queued item name {queuedItem[item]}");
+                    button.AddItem(item, queuedItem[item]);
+                    queuedItems.Remove(queuedItem);
+                    break;
                 }
 
-                button.AddItem(item, itemCount);
-                return;
+                continue;
             }
 
-
-            if (button.currentItem == item)
+            if (button.currentItem == item && button.itemCount < button.currentItem.MaxStackSize)
             {
                 if (queuedItems.Count > 0)
                 {
                     foreach (var queuedItem in queuedItems)
                     {
-                        int incrementRemQ = button.IncrementCount(queuedItem[item]);
-                        if (incrementRemQ == 0)
+                        var incrementRem = button.IncrementCount(queuedItem[item]);
+                        if (incrementRem == 0)
                         {
                             queuedItems.Remove(queuedItem);
                             break;
                         }
 
-                        queuedItem[item] -= incrementRemQ;
+                        queuedItem[item] = incrementRem;
                         break;
                     }
-                    continue;
                 }
-
-                int incrementRem = button.IncrementCount(itemCount);
-                if (incrementRem == 0)
-                {
-                    return;
-                }
-
-                queuedItems.Add(new Dictionary<BaseItem, int>()
-                {
-                    {
-                        item, incrementRem
-                    }
-                });
+                
             }
         }
 
         // if item could not be added
         // drop the item
         //DropItem(Item, itemCount);
+        
         // remove count from Inventory
         inventory.RemoveItem(item, itemCount);
     }
