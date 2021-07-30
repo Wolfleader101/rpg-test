@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using ScriptableObjects.Items;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -29,13 +30,18 @@ public class HotbarItem : MonoBehaviour
     public void AddItem(BaseItem item, int count)
     {
         var itemObj = gameObject.transform.Find("Item").gameObject;
+        var textObj = gameObject.transform.Find("ItemCount").gameObject;
+        
         var img = itemObj.GetComponent<Image>();
+        var text = textObj.GetComponent<TextMeshProUGUI>();
         img.sprite = item.Sprite;
         
         itemObj.SetActive(true);
+        textObj.SetActive(true);
 
         currentItem = item;
         itemCount = count;
+        text.text = itemCount.ToString();
 
     }
 
@@ -46,6 +52,11 @@ public class HotbarItem : MonoBehaviour
         int clamped = Mathf.Clamp(count, 1, maxIncrement);
         
         itemCount += clamped;
+        
+        var textObj = gameObject.transform.Find("ItemCount").gameObject;
+        var text = textObj.GetComponent<TextMeshProUGUI>();
+        text.text = itemCount.ToString();
+        
         return count - clamped;
     }
     private void HandleClick()
