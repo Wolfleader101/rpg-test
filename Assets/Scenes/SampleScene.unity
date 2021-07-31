@@ -864,6 +864,10 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 9d0089b6-b02d-4ad3-ae64-06f71d668df7
     m_ActionName: UI/Hotbar[/Keyboard/1,/Keyboard/2,/Keyboard/3,/Keyboard/4,/Keyboard/5,/Keyboard/6,/Keyboard/7,/Keyboard/8,/Keyboard/9]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 5df991e1-d045-4fb8-b7de-866a19b7a30f
+    m_ActionName: UI/DropItem[/Keyboard/q]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: UI
@@ -1415,7 +1419,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 6
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -3914,6 +3918,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 9d0089b6-b02d-4ad3-ae64-06f71d668df7
     m_ActionName: UI/Hotbar[/Keyboard/1,/Keyboard/2,/Keyboard/3,/Keyboard/4,/Keyboard/5,/Keyboard/6,/Keyboard/7,/Keyboard/8,/Keyboard/9]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 5df991e1-d045-4fb8-b7de-866a19b7a30f
+    m_ActionName: UI/DropItem[/Keyboard/q]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -6098,6 +6106,7 @@ GameObject:
   - component: {fileID: 2125663179}
   - component: {fileID: 2125663172}
   - component: {fileID: 2125663173}
+  - component: {fileID: 2125663176}
   m_Layer: 5
   m_Name: HotBar Panel
   m_TagString: Untagged
@@ -6105,6 +6114,76 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &2125663176
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2125663175}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: 0680240b31a1d604686d590c21bd46be, type: 3}
+  m_NotificationBehavior: 2
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents:
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 9f298b24-2016-48ed-8ff8-9883d4720461
+    m_ActionName: Player/Movement[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: c9d2b8a3-641f-4391-a4c2-c65fb573c1c0
+    m_ActionName: Player/Sprint[/Keyboard/leftShift]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 12fab6ae-5ee8-43e5-a693-f458156d4a87
+    m_ActionName: Player/Dash[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: faa008de-0419-4e03-b297-26229d2a1d65
+    m_ActionName: Player/Interact[/Keyboard/e]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 8d4c158a-b768-4e58-a3a3-b9012598cf27
+    m_ActionName: Player/Attack[/Mouse/leftButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 9d0089b6-b02d-4ad3-ae64-06f71d668df7
+    m_ActionName: UI/Hotbar[/Keyboard/1,/Keyboard/2,/Keyboard/3,/Keyboard/4,/Keyboard/5,/Keyboard/6,/Keyboard/7,/Keyboard/8,/Keyboard/9]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2125663173}
+        m_TargetAssemblyTypeName: Hotbar, Assembly-CSharp
+        m_MethodName: OnItemDropPressed
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 5df991e1-d045-4fb8-b7de-866a19b7a30f
+    m_ActionName: UI/DropItem[/Keyboard/q]
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: 792f926e-072e-4309-840d-a6cacbf3e39f
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
 --- !u!222 &2125663178
 CanvasRenderer:
   m_ObjectHideFlags: 0

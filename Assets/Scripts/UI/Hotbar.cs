@@ -5,6 +5,7 @@ using System.Linq;
 using ScriptableObjects.Inventory;
 using ScriptableObjects.Items;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class Hotbar : MonoBehaviour
@@ -19,21 +20,24 @@ public class Hotbar : MonoBehaviour
         {
             button.OnButtonClicked += OnButtonClicked;
         }
-
+        
         inventory.OnItemAdded += AddItem;
         inventory.OnItemRemoved += ItemRemoved;
+        
+        _currentSelectedButton = transform.Find($"Hotbar Item 1").gameObject;
+        _currentSelectedButton.gameObject.SetActive(true);
     }
 
-    private void OnButtonClicked(int buttonNumber)
+    private void OnButtonClicked(HotbarItem hotbarItem)
     {
         if (_currentSelectedButton != null)
             _currentSelectedButton.transform.Find("Selected").gameObject.SetActive(false);
 
-        _currentSelectedButton = transform.Find($"Hotbar Item {buttonNumber}").gameObject;
+        _currentSelectedButton = hotbarItem.gameObject;
 
         _currentSelectedButton.transform.Find("Selected").gameObject.SetActive(true);
     }
-
+    
     private void AddItem(BaseItem item, int itemCount)
     {
         // list of hotbar slots
@@ -96,8 +100,6 @@ public class Hotbar : MonoBehaviour
                 break;
             }
         }
-
-  
         
         // if item could not be added
         // NOTE THIS SHOULD NEVER HAPPEN
@@ -110,5 +112,15 @@ public class Hotbar : MonoBehaviour
     private void ItemRemoved(BaseItem item, int itemCount)
     {
         
+    }
+    
+    private void HandleDrop()
+    {
+        var currentItem = _currentSelectedButton.GetComponent<HotbarItem>().currentItem;
+    }
+
+    public void OnItemDropPressed(InputAction.CallbackContext context)
+    {
+        if(context.performed) HandleDrop();
     }
 }

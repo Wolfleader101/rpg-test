@@ -9,7 +9,7 @@ using UnityEngine.UI;
 
 public class HotbarItem : MonoBehaviour
 {
-    [HideInInspector] public event Action<int> OnButtonClicked;
+    [HideInInspector] public event Action<HotbarItem> OnButtonClicked;
     [HideInInspector] public BaseItem currentItem { get; set; }
     [HideInInspector] public int itemCount;
     
@@ -59,9 +59,25 @@ public class HotbarItem : MonoBehaviour
         
         return count - clamped;
     }
+    
+    public int DecrementCount(int count)
+    {
+        // if (itemCount == currentItem.MaxStackSize) return count;
+        int maxIncrement = currentItem.MaxStackSize - itemCount; 
+        int clamped = Mathf.Clamp(count, 1, maxIncrement);
+        
+        itemCount -= clamped;
+        
+        var textObj = gameObject.transform.Find("ItemCount").gameObject;
+        var text = textObj.GetComponent<TextMeshProUGUI>();
+        text.text = itemCount.ToString();
+        
+        return count - clamped;
+    }
+    
     private void HandleClick()
     {
-        OnButtonClicked?.Invoke(_keyNumber);
+        OnButtonClicked?.Invoke(this);
     }
 
     public void OnHotbarPress(InputAction.CallbackContext context)
@@ -72,4 +88,6 @@ public class HotbarItem : MonoBehaviour
             HandleClick();
         }
     }
+
+
 }
