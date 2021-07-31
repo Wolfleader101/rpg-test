@@ -10,7 +10,7 @@ using UnityEngine.UI;
 public class HotbarItem : MonoBehaviour
 {
     [HideInInspector] public event Action<HotbarItem> OnButtonClicked;
-    [HideInInspector] public BaseItem currentItem { get; set; }
+    [HideInInspector] public BaseItem currentItem;
     [HideInInspector] public int itemCount;
     
     private int _keyNumber;
