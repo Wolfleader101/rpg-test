@@ -27,34 +27,7 @@ namespace ScriptableObjects.Inventory
             
             if (_items.Find(itemInDict => itemInDict.ContainsKey(item)) == null)
             {
-                if (_items.Count >= maxCapacity) return itemCount;
-                while (itemCount > item.MaxStackSize)
-                {
-                    if (_items.Count >= maxCapacity) return itemCount;
-                    
-                    _items.Add(new Dictionary<BaseItem, int>()
-                    {
-                        {
-                            item, item.MaxStackSize
-                        }
-                    });
-                
-                    OnItemAdded?.Invoke(item, item.MaxStackSize);
-                    
-                    itemCount -= item.MaxStackSize;
-                }
-                
-                if (_items.Count >= maxCapacity) return itemCount;
-                
-                _items.Add(new Dictionary<BaseItem, int>()
-                {
-                    {
-                        item, itemCount
-                    }
-                });
-
-                OnItemAdded?.Invoke(item, itemCount);
-                return 0;
+                return TryAddItem(item, itemCount);
             }
 
             foreach (var itemDict in _items.Where(queuedItem => queuedItem.ContainsKey(item)))
@@ -72,15 +45,18 @@ namespace ScriptableObjects.Inventory
                 if (itemCount != 0) continue;
                 
                 return 0;
-
             }
 
+            return TryAddItem(item, itemCount);
+        }
+
+        private int TryAddItem(BaseItem item, int itemCount)
+        {
             if (_items.Count >= maxCapacity) return itemCount;
-            
             while (itemCount > item.MaxStackSize)
             {
                 if (_items.Count >= maxCapacity) return itemCount;
-                
+                    
                 _items.Add(new Dictionary<BaseItem, int>()
                 {
                     {
@@ -92,7 +68,7 @@ namespace ScriptableObjects.Inventory
                     
                 itemCount -= item.MaxStackSize;
             }
-            
+                
             if (_items.Count >= maxCapacity) return itemCount;
                 
             _items.Add(new Dictionary<BaseItem, int>()
