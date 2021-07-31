@@ -42,71 +42,35 @@ public class Hotbar : MonoBehaviour
     {
         // list of hotbar slots
         var hotbarItems = gameObject.GetComponentsInChildren<HotbarItem>().ToList();
-
-        // this is for splitting items
-        var queuedItems = new List<Dictionary<BaseItem, int>>();
-
-        // if itemCount is greater than maxStackSize then it will need to split them
-        while (itemCount > item.MaxStackSize)
-        {
-            queuedItems.Add(new Dictionary<BaseItem, int>()
-            {
-                {
-                    item, item.MaxStackSize
-                }
-            });
-
-            Debug.Log($"{itemCount} Added Queued Item {item.MaxStackSize}");
-            itemCount -= item.MaxStackSize;
-        }
-
-        // Add in the remainder
-        queuedItems.Add(new Dictionary<BaseItem, int>()
-        {
-            {
-                item, itemCount
-            }
-        });
-
+        
         // loop over each inventory slot
         foreach (var button in hotbarItems)
         {
             // if slot is empty
             if (button.currentItem == null)
             {
-                foreach (var queuedItem in queuedItems.Where(queuedItem => queuedItem.ContainsKey(item)))
-                {
-                    button.AddItem(item, queuedItem[item]);
-                    queuedItems.Remove(queuedItem);
-                    break;
-                }
+                button.AddItem(item, itemCount);
 
-                continue;
+                return;
             }
 
             // if slots item is not current item AND if its already at max cap
             if (button.currentItem != item && button.itemCount >= button.currentItem.MaxStackSize) continue;
 
-            foreach (var queuedItem in queuedItems)
+            var incrementRem = button.IncrementCount(itemCount);
+            if (incrementRem == 0)
             {
-                var incrementRem = button.IncrementCount(queuedItem[item]);
-                if (incrementRem == 0)
-                {
-                    queuedItems.Remove(queuedItem);
-                    break;
-                }
-
-                queuedItem[item] = incrementRem;
                 break;
             }
+            
+            itemCount = incrementRem;
+            
         }
         
         // if item could not be added
         // NOTE THIS SHOULD NEVER HAPPEN
         // Inventory maxCapacity should trigger Inventory method to return false
         
-        // remove count from Inventory (will invoke RemoveItemEvent, which will drop item)
-        //inventory.RemoveItem(item, itemCount);
     }
 
     private void ItemRemoved(BaseItem item, int itemCount)
