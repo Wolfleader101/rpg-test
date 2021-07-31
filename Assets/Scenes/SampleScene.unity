@@ -244,6 +244,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8de7d5c63775a746a953660827dc8d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentItem: {fileID: 0}
   itemCount: 0
 --- !u!114 &46916629
 MonoBehaviour:
@@ -448,6 +449,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8de7d5c63775a746a953660827dc8d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentItem: {fileID: 0}
   itemCount: 0
 --- !u!114 &123839902
 MonoBehaviour:
@@ -802,6 +804,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8de7d5c63775a746a953660827dc8d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentItem: {fileID: 0}
   itemCount: 0
 --- !u!114 &204659195
 MonoBehaviour:
@@ -1704,6 +1707,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8de7d5c63775a746a953660827dc8d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentItem: {fileID: 0}
   itemCount: 0
 --- !u!114 &596283307
 MonoBehaviour:
@@ -1908,6 +1912,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8de7d5c63775a746a953660827dc8d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentItem: {fileID: 0}
   itemCount: 0
 --- !u!114 &707180240
 MonoBehaviour:
@@ -2187,6 +2192,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8de7d5c63775a746a953660827dc8d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentItem: {fileID: 0}
   itemCount: 0
 --- !u!114 &783615957
 MonoBehaviour:
@@ -2391,6 +2397,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8de7d5c63775a746a953660827dc8d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentItem: {fileID: 0}
   itemCount: 0
 --- !u!114 &817844470
 MonoBehaviour:
@@ -3341,6 +3348,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8de7d5c63775a746a953660827dc8d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentItem: {fileID: 0}
   itemCount: 0
 --- !u!114 &1231718897
 MonoBehaviour:
@@ -4190,6 +4198,10 @@ PrefabInstance:
     - target: {fileID: 2306197899503973151, guid: 8e0088e6c75b6ae4a907c157c62bad87, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2306197899503973152, guid: 8e0088e6c75b6ae4a907c157c62bad87, type: 3}
+      propertyPath: itemCount
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8e0088e6c75b6ae4a907c157c62bad87, type: 3}
@@ -5259,6 +5271,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8de7d5c63775a746a953660827dc8d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentItem: {fileID: 0}
   itemCount: 0
 --- !u!114 &1816025914
 MonoBehaviour:
@@ -6181,7 +6194,7 @@ MonoBehaviour:
     m_ActionName: UI/DropItem[/Keyboard/q]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
-  m_DefaultActionMap: 792f926e-072e-4309-840d-a6cacbf3e39f
+  m_DefaultActionMap: UI
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
 --- !u!222 &2125663178
@@ -6413,7 +6426,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2306197899503973152, guid: 8e0088e6c75b6ae4a907c157c62bad87, type: 3}
       propertyPath: itemCount
-      value: 256
+      value: 257
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8e0088e6c75b6ae4a907c157c62bad87, type: 3}

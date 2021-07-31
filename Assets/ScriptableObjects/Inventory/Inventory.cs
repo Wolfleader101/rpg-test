@@ -22,14 +22,16 @@ namespace ScriptableObjects.Inventory
             _items = new List<Dictionary<BaseItem, int>>(maxCapacity);
         }
 
-        public bool AddItem(BaseItem item, int itemCount)
+        public int AddItem(BaseItem item, int itemCount)
         {
             
             if (_items.Find(itemInDict => itemInDict.ContainsKey(item)) == null)
             {
-                if (_items.Count >= maxCapacity) return false;
+                if (_items.Count >= maxCapacity) return itemCount;
                 while (itemCount > item.MaxStackSize)
                 {
+                    if (_items.Count >= maxCapacity) return itemCount;
+                    
                     _items.Add(new Dictionary<BaseItem, int>()
                     {
                         {
@@ -37,10 +39,12 @@ namespace ScriptableObjects.Inventory
                         }
                     });
                 
-                    OnItemAdded?.Invoke(item, itemCount);
+                    OnItemAdded?.Invoke(item, item.MaxStackSize);
                     
                     itemCount -= item.MaxStackSize;
                 }
+                
+                if (_items.Count >= maxCapacity) return itemCount;
                 
                 _items.Add(new Dictionary<BaseItem, int>()
                 {
@@ -50,7 +54,7 @@ namespace ScriptableObjects.Inventory
                 });
 
                 OnItemAdded?.Invoke(item, itemCount);
-                return true;
+                return 0;
             }
 
             foreach (var itemDict in _items.Where(queuedItem => queuedItem.ContainsKey(item)))
@@ -67,14 +71,16 @@ namespace ScriptableObjects.Inventory
                 itemCount -= clamped;
                 if (itemCount != 0) continue;
                 
-                return true;
+                return 0;
 
             }
 
-            if (_items.Count >= maxCapacity) return false;
+            if (_items.Count >= maxCapacity) return itemCount;
             
             while (itemCount > item.MaxStackSize)
             {
+                if (_items.Count >= maxCapacity) return itemCount;
+                
                 _items.Add(new Dictionary<BaseItem, int>()
                 {
                     {
@@ -82,10 +88,12 @@ namespace ScriptableObjects.Inventory
                     }
                 });
                 
-                OnItemAdded?.Invoke(item, itemCount);
+                OnItemAdded?.Invoke(item, item.MaxStackSize);
                     
                 itemCount -= item.MaxStackSize;
             }
+            
+            if (_items.Count >= maxCapacity) return itemCount;
                 
             _items.Add(new Dictionary<BaseItem, int>()
             {
@@ -95,7 +103,7 @@ namespace ScriptableObjects.Inventory
             });
 
             OnItemAdded?.Invoke(item, itemCount);
-            return true;
+            return 0;
         }
         
 

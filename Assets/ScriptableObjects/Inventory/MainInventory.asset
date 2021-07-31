@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d65e76c91b8f214d849d8cd62aa75d4, type: 3}
   m_Name: MainInventory
   m_EditorClassIdentifier: 
-  maxCapacity: 36
+  maxCapacity: 1
