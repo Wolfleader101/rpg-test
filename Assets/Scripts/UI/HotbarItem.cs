@@ -34,7 +34,15 @@ public class HotbarItem : MonoBehaviour
         
         var img = itemObj.GetComponent<Image>();
         var text = textObj.GetComponent<TextMeshProUGUI>();
-        img.sprite = item.Sprite;
+        if (count > 1 && item.StackedSprite != null)
+        {
+            img.sprite = item.StackedSprite;
+        }
+        else
+        {
+            img.sprite = item.Sprite;
+        }
+        
         
         itemObj.SetActive(true);
         textObj.SetActive(true);
@@ -57,6 +65,17 @@ public class HotbarItem : MonoBehaviour
         var text = textObj.GetComponent<TextMeshProUGUI>();
         text.text = itemCount.ToString();
         
+        var itemObj = gameObject.transform.Find("Item").gameObject;
+        var img = itemObj.GetComponent<Image>();
+        if (itemCount > 1 && currentItem.StackedSprite != null)
+        {
+            img.sprite = currentItem.StackedSprite;
+        }
+        else
+        {
+            img.sprite = currentItem.Sprite;
+        }
+        
         return count - clamped;
     }
     
@@ -71,6 +90,18 @@ public class HotbarItem : MonoBehaviour
         var textObj = gameObject.transform.Find("ItemCount").gameObject;
         var text = textObj.GetComponent<TextMeshProUGUI>();
         text.text = itemCount.ToString();
+        
+        var itemObj = gameObject.transform.Find("Item").gameObject;
+        var img = itemObj.GetComponent<Image>();
+        if (itemCount <= 1 && currentItem.StackedSprite != null)
+        {
+            img.sprite = currentItem.StackedSprite;
+        }
+        else
+        {
+            img.sprite = currentItem.Sprite;
+        }
+        
         
         return count - clamped;
     }

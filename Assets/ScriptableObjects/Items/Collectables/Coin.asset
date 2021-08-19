@@ -15,4 +15,5 @@ MonoBehaviour:
   itemName: Coin
   description: Use this to trade with NPC's
   maxStackSize: 256
-  sprite: {fileID: 21300000, guid: f1806e5ef39a20e4f945df62af29fd8d, type: 3}
+  sprite: {fileID: 21300000, guid: 32da9889c01e9af42b796bfe995bc149, type: 3}
+  stackedSprite: {fileID: 21300000, guid: fd58cb28a72b3434f8c477d99bc3b1b6, type: 3}

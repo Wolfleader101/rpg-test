@@ -17,6 +17,9 @@ namespace ScriptableObjects.Items
 
         [SerializeField] private Sprite sprite;
         public Sprite Sprite => sprite;
-    
+
+        [SerializeField] private Sprite stackedSprite;
+        public Sprite StackedSprite => stackedSprite;
+
     }
 }

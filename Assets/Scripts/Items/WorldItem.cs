@@ -14,7 +14,16 @@ public class WorldItem : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        gameObject.GetComponent<SpriteRenderer>().sprite = item.Sprite;
+        var img = gameObject.GetComponent<SpriteRenderer>();
+        if (itemCount > 1 && item.StackedSprite != null)
+        {
+            img.sprite = item.StackedSprite;
+        }
+        else
+        {
+            img.sprite = item.Sprite;
+        }
+        
         gameObject.GetComponent<Collider2D>().isTrigger = true;
         var textObj = gameObject.transform.Find("ItemCount").gameObject;
         if (textObj != null)
