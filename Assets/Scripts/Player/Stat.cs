@@ -37,8 +37,8 @@ public class Stat : MonoBehaviour
 
     #region Current Stat
 
-    [Header("Current Stats")] [SerializeField]
-    private float currentValue = 0f;
+    [Header("Current Stats")] 
+    [SerializeField] private float currentValue = 0f;
 
     public float CurrentValue
     {

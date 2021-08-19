@@ -43,7 +43,7 @@ namespace ScriptableObjects.Stats
 
         private void OnDisable()
         {
-            throw new NotImplementedException();
+            
         }
 
         #endregion

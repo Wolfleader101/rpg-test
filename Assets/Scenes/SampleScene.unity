@@ -3114,9 +3114,10 @@ GameObject:
   m_Component:
   - component: {fileID: 973870802}
   - component: {fileID: 973870801}
+  - component: {fileID: 973870803}
   - component: {fileID: 973870800}
   m_Layer: 0
-  m_Name: Square
+  m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3131,12 +3132,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 973870799}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e7d5f36b138984145b7cabc8d0edf940, type: 3}
+  m_Script: {fileID: 11500000, guid: e2903230a5c24aca8eb2ad1c96079f2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 1258586544}
-  visionConeArc: 60
-  lineOfSightDistance: 100
+  enemyVision: {fileID: 973870803}
+  turnSpeed: 100
 --- !u!212 &973870801
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3203,6 +3203,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &973870803
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 973870799}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a63c480034664d22b0e7c9a0208ca3f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 1258586544}
+  visionConeArc: 60
+  lineOfSightDistance: 100
 --- !u!1 &1055524772
 GameObject:
   m_ObjectHideFlags: 0
@@ -3862,7 +3877,7 @@ GameObject:
   - component: {fileID: 1258586551}
   m_Layer: 6
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6189,12 +6204,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3bcc4bf13de1bf94eb63b4cf8b4b65ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  statType: 0
   statBar: {fileID: 1096269664}
-  baseValue: 100
-  recoveryPerSecond: 4
-  recoverAfterDrainTime: 3
-  recoveryState: 2
+  baseStat: {fileID: 11400000, guid: dffeef6f60fc2fd46919826dd3a8aaba, type: 2}
   currentValue: 0
   maxValue: 0
   buff: 0
@@ -6210,12 +6221,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3bcc4bf13de1bf94eb63b4cf8b4b65ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  statType: 1
   statBar: {fileID: 1454924455}
-  baseValue: 100
-  recoveryPerSecond: 4
-  recoverAfterDrainTime: 3
-  recoveryState: 2
+  baseStat: {fileID: 11400000, guid: 3d516d9324099644cbb96865a6dbc8d3, type: 2}
   currentValue: 0
   maxValue: 0
   buff: 0
@@ -6231,12 +6238,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3bcc4bf13de1bf94eb63b4cf8b4b65ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  statType: 2
   statBar: {fileID: 1668752378}
-  baseValue: 100
-  recoveryPerSecond: 4
-  recoverAfterDrainTime: 3
-  recoveryState: 2
+  baseStat: {fileID: 11400000, guid: 8ce8ae2d6b296424ab8d70df63163c9e, type: 2}
   currentValue: 0
   maxValue: 0
   buff: 0
