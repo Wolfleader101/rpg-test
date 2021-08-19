@@ -18,9 +18,9 @@ public class StatsManager : MonoBehaviour
 
     private void Start()
     {
-        heatlhStat = stats.First(stat => stat.StatType == StatType.Health);
-        staminaStat = stats.First(stat => stat.StatType == StatType.Stamina);
-        manaStat = stats.First(stat => stat.StatType == StatType.Mana);
+        heatlhStat = stats.First(stat => stat.BaseStat.name == "Health");
+        staminaStat = stats.First(stat => stat.BaseStat.name == "Stamina");
+        manaStat = stats.First(stat => stat.BaseStat.name == "Mana");
     }
 
     #endregion
@@ -38,33 +38,33 @@ public class StatsManager : MonoBehaviour
     {
     }
 
-    public void DrainStat(StatType stat, float amount)
+    public void DrainStat(string stat, float amount)
     {
         switch (stat)
         {
-            case StatType.Health:
+            case "Health":
                 heatlhStat.DrainStat(amount);
                 break;
-            case StatType.Stamina:
+            case "Stamina":
                 staminaStat.DrainStat(amount);
                 break;
-            case StatType.Mana:
+            case "Mana":
                 manaStat.DrainStat(amount);
                 break;
         }
     }
 
-    public void DrainStatOverTime(StatType stat, float totalDrain, float totalTime)
+    public void DrainStatOverTime(string stat, float totalDrain, float totalTime)
     {
         switch (stat)
         {
-            case StatType.Health:
+            case "Health":
                 heatlhStat.DrainStatOverTime(totalDrain, totalTime);
                 break;
-            case StatType.Stamina:
+            case "Stamina":
                 staminaStat.DrainStatOverTime(totalDrain, totalTime);
                 break;
-            case StatType.Mana:
+            case "Mana":
                 manaStat.DrainStatOverTime(totalDrain, totalTime);
                 break;
         }
@@ -89,49 +89,49 @@ public class StatsManager : MonoBehaviour
         manaStat.AddBuff(value);
     }
 
-    public void AddBuff(StatType stat, float value)
+    public void AddBuff(string stat, float value)
     {
         switch (stat)
         {
-            case StatType.Health:
+            case "Health":
                 AddHealthBuff(value);
                 break;
-            case StatType.Stamina:
+            case "Stamina":
                 AddStaminaBuff(value);
                 break;
-            case StatType.Mana:
+            case "Mana":
                 AddManaBuff(value);
                 break;
         }
     }
 
-    public void RemoveBuff(StatType stat)
+    public void RemoveBuff(string stat)
     {
         switch (stat)
         {
-            case StatType.Health:
-                RemoveBuffAmount(StatType.Health, heatlhStat.Buff);
+            case "Health":
+                RemoveBuffAmount("Health", heatlhStat.Buff);
                 break;
-            case StatType.Stamina:
-                RemoveBuffAmount(StatType.Stamina, staminaStat.Buff);
+            case "Stamina":
+                RemoveBuffAmount("Stamina", staminaStat.Buff);
                 break;
-            case StatType.Mana:
-                RemoveBuffAmount(StatType.Mana, manaStat.Buff);
+            case "Mana":
+                RemoveBuffAmount("Mana", manaStat.Buff);
                 break;
         }
     }
 
-    public void RemoveBuffAmount(StatType stat, float value)
+    public void RemoveBuffAmount(string stat, float value)
     {
         switch (stat)
         {
-            case StatType.Health:
+            case "Health":
                 heatlhStat.RemoveBuff(value);
                 break;
-            case StatType.Stamina:
+            case "Stamina":
                 staminaStat.RemoveBuff(value);
                 break;
-            case StatType.Mana:
+            case "Mana":
                 manaStat.RemoveBuff(value);
 
                 break;

@@ -1,14 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using ScriptableObjects.Stats;
 using UnityEngine;
 
-public enum StatType
-{
-    Health,
-    Stamina,
-    Mana
-}
 
 public enum RecoveryState
 {
@@ -20,9 +15,7 @@ public enum RecoveryState
 // potentially use a scriptable object
 public class Stat : MonoBehaviour
 {
-    [SerializeField] private StatType statType;
-    public StatType StatType => statType;
-
+   
     #region Stat Bar
 
     [Header("Stats Bars")] [SerializeField]
@@ -30,25 +23,15 @@ public class Stat : MonoBehaviour
 
     #endregion
 
-    #region Base Value
+    #region Stat Scriptable Object
 
-    [Header("Base Stats")] [SerializeField]
-    private float baseValue = 100f;
-
-    public float BaseValue => baseValue;
-
+    [SerializeField] private BaseStat baseStat;
+    public BaseStat BaseStat => baseStat;
     #endregion
 
     #region Passive Recovery
-
-    // TODO fix up passive recovery system, right now it is broken
-
-    [Header("Passive Recovery")] [SerializeField]
-    private float recoveryPerSecond = 4f;
-
-    [SerializeField] private float recoverAfterDrainTime = 3f;
     
-    [SerializeField]  RecoveryState recoveryState = RecoveryState.CanRecover;
+    private RecoveryState _currentRecoveryState;
 
     #endregion
 
@@ -101,7 +84,8 @@ public class Stat : MonoBehaviour
 
     private void Start()
     {
-        MaxValue = baseValue + buff;
+        _currentRecoveryState = baseStat.DefaultRecoveryState;
+        MaxValue = baseStat.BaseValue + buff;
 
         statBar.SetInitialValue(MaxValue);
 
@@ -110,9 +94,9 @@ public class Stat : MonoBehaviour
 
     private void Update()
     {
-        if (recoveryState == RecoveryState.CanRecover && currentValue < maxValue)
+        if (_currentRecoveryState == RecoveryState.CanRecover && currentValue < maxValue)
         {
-            recoveryState = RecoveryState.Recovering;
+            _currentRecoveryState = RecoveryState.Recovering;
             RecoverStatOverTime();
         }
     }
@@ -123,7 +107,7 @@ public class Stat : MonoBehaviour
 
     public void DrainStat(float amount)
     {
-        recoveryState = RecoveryState.CantRecover;
+        _currentRecoveryState = RecoveryState.CantRecover;
 
         CurrentValue -= amount;
 
@@ -132,7 +116,7 @@ public class Stat : MonoBehaviour
 
     public void DrainStatOverTime(float totalDrain, float totalTime)
     {
-        recoveryState = RecoveryState.CantRecover;
+        _currentRecoveryState = RecoveryState.CantRecover;
         StartCoroutine(DrainStatOverTime(val => CurrentValue = val, CurrentValue, totalDrain, totalTime
         ));
     }
@@ -159,8 +143,8 @@ public class Stat : MonoBehaviour
 
     private IEnumerator CanRecoverAfterDrain()
     {
-        yield return new WaitForSeconds(recoverAfterDrainTime);
-        recoveryState = RecoveryState.CanRecover;
+        yield return new WaitForSeconds(baseStat.RecoverAfterDrainTime);
+        _currentRecoveryState = RecoveryState.CanRecover;
     }
 
     private void RecoverStatOverTime()
@@ -171,9 +155,9 @@ public class Stat : MonoBehaviour
     private IEnumerator _RecoverStatOverTime(Action<float> callback, float stat, float maxStat)
     {
         float timeElapsed = 0f;
-        float totalTime = (maxStat - stat) / recoveryPerSecond;
+        float totalTime = (maxStat - stat) / baseStat.RecoveryPerSecond;
 
-        while (timeElapsed < totalTime && recoveryState == RecoveryState.Recovering)
+        while (timeElapsed < totalTime && _currentRecoveryState == RecoveryState.Recovering)
         {
             callback(Mathf.Lerp(stat, maxStat,
                 timeElapsed / totalTime));
@@ -183,14 +167,14 @@ public class Stat : MonoBehaviour
             yield return null;
         }
         
-        if (recoveryState == RecoveryState.Recovering)
+        if (_currentRecoveryState == RecoveryState.Recovering)
         {
             callback(maxStat);
-            recoveryState = RecoveryState.CanRecover;
+            _currentRecoveryState = RecoveryState.CanRecover;
         }
         else
         {
-            recoveryState = RecoveryState.CantRecover;
+            _currentRecoveryState = RecoveryState.CantRecover;
         }
     }
 

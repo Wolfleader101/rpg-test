@@ -88,7 +88,7 @@ public class TopDownController : MonoBehaviour
         interactionState = InteractionState.Attacking;
 
         //statsManager.DrainStatOverTime(StatType.Stamina, 10, 2f);
-        statsManager.DrainStat(StatType.Stamina, 10);
+        statsManager.DrainStat("Stamina", 10);
 
        yield return new WaitForSeconds(1f);
         interactionState = InteractionState.None;
