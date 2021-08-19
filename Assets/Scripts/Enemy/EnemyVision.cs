@@ -14,7 +14,7 @@ namespace Enemy
 
         #region Callbacks
 
-        public event Action<Vector2> onVisible;
+        public event Action<Vector2> ONVisible;
 
         #endregion
 
@@ -41,13 +41,12 @@ namespace Enemy
             Debug.DrawRay(transform.position, transform.up, Color.red);
             if (InVisionCone(targetPos) && HasLos(targetPos))
             {
-      
-                onVisible?.Invoke(targetPos);
-                this.gameObject.GetComponent<SpriteRenderer>().color = Color.red;
+                ONVisible?.Invoke(targetPos);
+                gameObject.GetComponent<SpriteRenderer>().color = Color.red;
             }
             else
             {
-                this.gameObject.GetComponent<SpriteRenderer>().color = Color.white;
+                gameObject.GetComponent<SpriteRenderer>().color = Color.white;
             }
         }
 
@@ -68,9 +67,11 @@ namespace Enemy
 
             if (!_checkThisFrame) return _hasLos;
 
-            var rayPoint = transform.InverseTransformPoint(point);
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, point - transform.position, lineOfSightDistance);
-            Debug.DrawRay(transform.position, point - transform.position, Color.cyan);
+            var position = transform.position;
+            var rayDir = point - position;
+            
+            RaycastHit2D hit = Physics2D.Raycast(position, rayDir, lineOfSightDistance);
+            Debug.DrawRay(position, rayDir, Color.cyan);
 
             if (hit.collider != null && (hit.collider.gameObject.layer == LayerMask.NameToLayer("Player")))
             {

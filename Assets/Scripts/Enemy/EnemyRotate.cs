@@ -17,7 +17,7 @@ namespace Enemy
                 enemyVision = gameObject.GetComponent<EnemyVision>();
             }
 
-            enemyVision.onVisible += OnVisble;
+            enemyVision.ONVisible += OnVisble;
 
 
         }
