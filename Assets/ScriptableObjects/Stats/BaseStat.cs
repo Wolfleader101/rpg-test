@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace ScriptableObjects.Stats
 {
@@ -30,6 +31,21 @@ namespace ScriptableObjects.Stats
         public RecoveryState DefaultRecoveryState => defaultRecoveryState;
 
         #endregion
-        
+
+
+        #region Unity Events
+
+        private void OnEnable()
+        {
+            
+            
+        }
+
+        private void OnDisable()
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
     }
 }
