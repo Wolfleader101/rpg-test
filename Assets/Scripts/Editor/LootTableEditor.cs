@@ -39,8 +39,8 @@ public class LootTableEditor : Editor
 
             if (GUILayout.Button("Add Item"))
             {
-                LootTableItem item = (LootTableItem) EditorGUILayout.ObjectField(null, typeof(LootTableItem), false);
-                lootTableComp.items.Add(item);
+                //LootTableItem item = (LootTableItem) EditorGUILayout.ObjectField(null, typeof(LootTableItem), false);
+                lootTableComp.items.Add(ScriptableObject.CreateInstance<LootTableItem>());
             }
             
 

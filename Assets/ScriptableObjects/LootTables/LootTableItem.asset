@@ -15,4 +15,4 @@ MonoBehaviour:
   Item: {fileID: 11400000, guid: ed2792a52c68a6f44b03b3c813a9fb5b, type: 2}
   MinCount: 1
   MaxCount: 0
-  DropChance: 0
+  DropChance: 0.381
