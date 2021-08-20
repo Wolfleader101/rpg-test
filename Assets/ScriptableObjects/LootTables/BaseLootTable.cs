@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace ScriptableObjects.LootTables
 {
-    [CreateAssetMenu(fileName = "LootTable", menuName = "LootTable"), ExecuteInEditMode, System.Serializable]
+    [CreateAssetMenu(fileName = "LootTable", menuName = "LootTable/Table"), ExecuteInEditMode, System.Serializable]
     public class BaseLootTable : ScriptableObject
     {
         public string lootTableName;

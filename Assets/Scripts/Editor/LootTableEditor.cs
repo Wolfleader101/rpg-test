@@ -33,8 +33,10 @@ public class LootTableEditor : Editor
             for (int i = 0; i < lootTableComp.items.Count; i++)
             {
                 lootTableComp.items[i] = (LootTableItem)EditorGUILayout.ObjectField(lootTableComp.items[i], typeof(LootTableItem), false);
-                lootTableComp.items[i].name = EditorGUILayout.TextField("Item Name", lootTableComp.items[i].name);
+                lootTableComp.items[i].MinDrop = EditorGUILayout.IntSlider("Min Drop", lootTableComp.items[i].MinDrop, 1, lootTableComp.items[i].MaxDrop - 1);
+                lootTableComp.items[i].MaxDrop = EditorGUILayout.IntSlider("Max Drop", lootTableComp.items[i].MaxDrop, lootTableComp.items[i].MinDrop, 100);
                 lootTableComp.items[i].DropChance = EditorGUILayout.Slider("DropChance", lootTableComp.items[i].DropChance, 0, 1);
+                // max value should be based on the element size and all their values
             }
 
             if (GUILayout.Button("Add Item"))

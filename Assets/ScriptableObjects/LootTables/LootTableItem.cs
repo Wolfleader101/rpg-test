@@ -7,8 +7,8 @@ namespace ScriptableObjects.LootTables
     public class LootTableItem : ScriptableObject
     {
         public BaseItem Item;
-        public int MinCount = 1;
-        public int MaxCount;
+        public int MinDrop = 1;
+        public int MaxDrop = 50;
         public float DropChance;
 
     }
