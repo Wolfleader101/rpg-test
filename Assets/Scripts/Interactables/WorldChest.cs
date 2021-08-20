@@ -1,5 +1,6 @@
 ﻿using System;
 using ScriptableObjects.Inventory;
+using ScriptableObjects.Items;
 using UnityEngine;
 
 namespace Interactables
