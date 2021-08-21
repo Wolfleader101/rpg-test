@@ -41,25 +41,18 @@ namespace Interactables
             if (colliderGameObject.CompareTag("Player") == false) return;
            
             OpenChest(colliderGameObject);
-            //var inventoryManager = colliderGameObject.GetComponent<InventoryManager>();
-            //if (inventoryManager == null) inventoryManager = colliderGameObject.GetComponentInChildren<InventoryManager>();
+
         }
         
         private void OpenChest(GameObject player)
         {
+            var inventoryManager = player.GetComponent<InventoryManager>();
+            
             foreach (var item in _inventory.Items)
             {
                 foreach (var dict in item)
                 {
-                    player.GetComponent<InventoryManager>().AddItem(dict.Key, dict.Value);
-                }
-            }
-            
-            foreach (var item in player.GetComponent<InventoryManager>().Inventory.Items)
-            {
-                foreach (var dict in item)
-                {
-                   // Debug.Log($"{dict.Key}, {dict.Value}");
+                    inventoryManager.AddItem(dict.Key, dict.Value);
                 }
             }
         }
