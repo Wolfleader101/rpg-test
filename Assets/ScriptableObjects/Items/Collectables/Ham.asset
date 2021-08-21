@@ -9,11 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6be528a635394a1880927f1c3e1860fe, type: 3}
-  m_Name: Gem
+  m_Script: {fileID: 11500000, guid: 53c80c5cab4d44d19e9d995e5fa40f37, type: 3}
+  m_Name: Ham
   m_EditorClassIdentifier: 
-  itemName: Gem
-  description: A rare blue gem
+  itemName: Ham
+  description: 
   maxStackSize: 32
-  sprite: {fileID: 21300000, guid: 6f133ed0dd344154c8db0071c95ab8cd, type: 3}
-  stackedSprite: {fileID: 21300000, guid: 138135fd07c55f1449830b83c72cb7f2, type: 3}
+  sprite: {fileID: 21300000, guid: bdd07c0b601015b4ba1b4e7543e268ab, type: 3}
+  stackedSprite: {fileID: 0}

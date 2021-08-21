@@ -47,14 +47,34 @@ namespace Interactables
         
         private void OpenChest(GameObject player)
         {
-            var inventoryManager = player.GetComponent<InventoryManager>();
-            
-            foreach (var item in _inventory.Items)
+            if (gameObject.transform.Find("Open").gameObject.activeSelf == false)
             {
+                gameObject.transform.Find("Open").gameObject.SetActive(true);
+                gameObject.transform.Find("Closed").gameObject.SetActive(false);
+            }
+            
+            if (_inventory.Items.Count == 0)
+            {
+                gameObject.transform.Find("Item").gameObject.SetActive(false);
+            }
+            
+            var inventoryManager = player.GetComponent<InventoryManager>();
+
+
+            while (_inventory.Items.Count != 0)
+            {
+                var item = _inventory.Items[0];
                 foreach (var dict in item)
                 {
                     inventoryManager.AddItem(dict.Key, dict.Value);
                 }
+                _inventory.Items.Remove(item);
+            }
+
+
+            if (_inventory.Items.Count == 0)
+            {
+                gameObject.transform.Find("Item").gameObject.SetActive(false);
             }
         }
 
