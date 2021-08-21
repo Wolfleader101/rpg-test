@@ -33,7 +33,7 @@ namespace Interactables
             {
                 if(tableItem.Item == null) return;
                 
-                float randNum = Random.Range(0, 1);
+                float randNum = Random.Range(0f, 1f);
                 if (randNum <= tableItem.DropChance)
                 {
                     _inventory.AddItem(tableItem.Item, Random.Range(tableItem.MinDrop, tableItem.MaxDrop));

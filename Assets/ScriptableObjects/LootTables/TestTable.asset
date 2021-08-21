@@ -14,6 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lootTableName: Test Table
   items:
-  - {fileID: 11400000, guid: a99059ec3ab37084ba0010ccb2ada534, type: 2}
-  - {fileID: 11400000, guid: 185d8c84a76ab434f9b424ff13a90183, type: 2}
-  - {fileID: 11400000, guid: 7aadf268665dfc945946edc4a7755ba6, type: 2}
+  - Item: {fileID: 11400000, guid: ed2792a52c68a6f44b03b3c813a9fb5b, type: 2}
+    MinDrop: 67
+    MaxDrop: 94
+    DropChance: 0.655
+  - Item: {fileID: 11400000, guid: 1ac77ed6764dcbe4ead445938a7a1bbe, type: 2}
+    MinDrop: 4
+    MaxDrop: 20
+    DropChance: 0.348
+  - Item: {fileID: 11400000, guid: ced687e301d0fdd49a3688b81315e179, type: 2}
+    MinDrop: 1
+    MaxDrop: 7
+    DropChance: 0.705

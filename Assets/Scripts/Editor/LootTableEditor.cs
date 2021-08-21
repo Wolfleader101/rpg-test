@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using ScriptableObjects.Items;
 using ScriptableObjects.LootTables;
 using UnityEditor;
 using UnityEngine;
@@ -34,7 +35,7 @@ public class LootTableEditor : Editor
             for (int i = 0; i < lootTableComp.items.Count; i++)
             {
                 EditorGUILayout.BeginHorizontal();
-                lootTableComp.items[i] = (LootTableItem)EditorGUILayout.ObjectField(lootTableComp.items[i], typeof(LootTableItem), false);
+                lootTableComp.items[i].Item = (BaseItem)EditorGUILayout.ObjectField(lootTableComp.items[i].Item, typeof(BaseItem), false);
                 if (GUILayout.Button("Remove Item", buttonWidth))
                 {
                     lootTableComp.items.Remove(lootTableComp.items[i]);
@@ -53,7 +54,7 @@ public class LootTableEditor : Editor
             if (GUILayout.Button("Add Item", buttonWidth))
             {
                 //LootTableItem item = (LootTableItem) EditorGUILayout.ObjectField(null, typeof(LootTableItem), false);
-                lootTableComp.items.Add(ScriptableObject.CreateInstance<LootTableItem>());
+                lootTableComp.items.Add(new LootTableItem());
             }
         }
 
