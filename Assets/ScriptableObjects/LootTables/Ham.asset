@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e470a8696dcd46e8abc3c84f5fb8c12a, type: 3}
   m_Name: Ham
   m_EditorClassIdentifier: 
-  Item: {fileID: 0}
+  Item: {fileID: 11400000, guid: ced687e301d0fdd49a3688b81315e179, type: 2}
   MinDrop: 1
-  MaxDrop: 50
-  DropChance: 0
+  MaxDrop: 3
+  DropChance: 0.714
