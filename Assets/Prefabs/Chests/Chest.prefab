@@ -301,6 +301,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lootTable: {fileID: 11400000, guid: ccf2ac40d21ebfb45a03bef216d34162, type: 2}
+  chestType: 1
 --- !u!61 &3962839729643332122
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -311,7 +312,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0.3}
@@ -442,7 +443,7 @@ GameObject:
   - component: {fileID: 589841425988587383}
   - component: {fileID: 589841425988587384}
   m_Layer: 0
-  m_Name: ClosedCap
+  m_Name: Closed
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -525,7 +526,7 @@ GameObject:
   - component: {fileID: 589841426378881634}
   - component: {fileID: 589841426378881635}
   m_Layer: 0
-  m_Name: OpenCap
+  m_Name: Open
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using ScriptableObjects.Inventory;
 using ScriptableObjects.Items;
 using ScriptableObjects.Items.Armour;
@@ -9,9 +10,18 @@ using Random = UnityEngine.Random;
 
 namespace Interactables
 {
+
+    public enum ChestType
+    {
+        ShowUI,
+        EmptyChest,
+        DropItems,
+        
+    }
     public class WorldChest : MonoBehaviour
     {
         [SerializeField] private BaseLootTable lootTable;
+        [SerializeField] private ChestType chestType = ChestType.EmptyChest;
         private Inventory _inventory;
 
         private void Start()
@@ -47,20 +57,38 @@ namespace Interactables
         
         private void OpenChest(GameObject player)
         {
+
+            OpenChestEffect();
+
+            InventoryManager inventoryManager = player.GetComponent<InventoryManager>();
+
+            switch (chestType)
+            {
+                case ChestType.ShowUI:
+                    break;
+                case ChestType.EmptyChest:
+                    EmptyChest(inventoryManager);
+                    EmptyChestEffect();
+                    break;
+                case ChestType.DropItems:
+                    break;
+            }
+       
+            
+        }
+
+        private void OpenChestEffect()
+        {
             if (gameObject.transform.Find("Open").gameObject.activeSelf == false)
             {
                 gameObject.transform.Find("Open").gameObject.SetActive(true);
                 gameObject.transform.Find("Closed").gameObject.SetActive(false);
             }
-            
-            if (_inventory.Items.Count == 0)
-            {
-                gameObject.transform.Find("Item").gameObject.SetActive(false);
-            }
-            
-            var inventoryManager = player.GetComponent<InventoryManager>();
+        }
+        
 
-
+        private void EmptyChest(InventoryManager inventoryManager)
+        {
             while (_inventory.Items.Count != 0)
             {
                 var item = _inventory.Items[0];
@@ -70,17 +98,28 @@ namespace Interactables
                 }
                 _inventory.Items.Remove(item);
             }
-
-
+        }
+        
+        private void EmptyChestEffect()
+        {
+            if(gameObject.transform.Find("Item").gameObject.activeSelf == false) return;
             if (_inventory.Items.Count == 0)
             {
-                gameObject.transform.Find("Item").gameObject.SetActive(false);
+                StartCoroutine(EmptyChestEffectRoutine());
             }
+        }
+        
+        private IEnumerator EmptyChestEffectRoutine()
+        {
+            yield return new WaitForSeconds(.2f);
+            gameObject.transform.Find("Item").gameObject.SetActive(false);
         }
 
         private void ItemRemoved(BaseItem item, int itemCount)
         {
-            
+
         }
+
+
     }
 }
