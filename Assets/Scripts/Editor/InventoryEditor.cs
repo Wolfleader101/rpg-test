@@ -31,12 +31,15 @@ public class InventoryEditor : Editor
             
             foreach (var element in inventoryComp.Items.SelectMany(item => item))
             {
+                GUI.enabled = false;
+                
                 EditorGUILayout.ObjectField(element.Key, typeof(BaseItem), false);
                 EditorGUILayout.TextField(element.Key.ItemName);
                 EditorGUILayout.IntField("Max Stack Size", element.Key.MaxStackSize);
                 EditorGUILayout.IntField("Current Count", element.Value);
                 
-
+                GUI.enabled = true;
+                
                 GUILayout.Space(20);
             }
             
