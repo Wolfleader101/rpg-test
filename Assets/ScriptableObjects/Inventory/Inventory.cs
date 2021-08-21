@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace ScriptableObjects.Inventory
 {
-    [CreateAssetMenu(menuName = "Inventory/Inventory")]
+    [CreateAssetMenu(menuName = "Inventory/Inventory"), ExecuteInEditMode, System.Serializable]
     public class Inventory : ScriptableObject
     {
         public event Action<BaseItem, int> OnItemAdded;
@@ -16,7 +16,6 @@ namespace ScriptableObjects.Inventory
         public int MaxCapacity => maxCapacity;
 
         private List<Dictionary<BaseItem, int>> _items;
-
         public List<Dictionary<BaseItem, int>> Items => _items;
 
         public void Init()

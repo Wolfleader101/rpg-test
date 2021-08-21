@@ -1,6 +1,7 @@
 ﻿using System;
 using ScriptableObjects.Inventory;
 using ScriptableObjects.Items;
+using ScriptableObjects.Items.Armour;
 using ScriptableObjects.LootTables;
 using UnityEngine;
 using Random = UnityEngine.Random;
