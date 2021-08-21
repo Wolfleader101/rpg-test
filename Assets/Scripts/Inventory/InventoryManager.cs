@@ -22,5 +22,7 @@ public class InventoryManager : MonoBehaviour
             Debug.Log ($"Added {itemCount}x {item.name}");
         else
             Debug.Log($"Not enough room for {item.name}, left over: {addItem}");
+        
+        
     }
 }

@@ -17,6 +17,8 @@ namespace ScriptableObjects.Inventory
 
         private List<Dictionary<BaseItem, int>> _items;
 
+        public List<Dictionary<BaseItem, int>> Items => _items;
+
         public void Init()
         {
             _items = new List<Dictionary<BaseItem, int>>(maxCapacity);

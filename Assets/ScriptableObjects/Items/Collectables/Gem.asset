@@ -9,10 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 79c29f85b66b4d98ace555cd96dfcadb, type: 3}
-  m_Name: TestTable
+  m_Script: {fileID: 11500000, guid: 6be528a635394a1880927f1c3e1860fe, type: 3}
+  m_Name: Gem
   m_EditorClassIdentifier: 
-  lootTableName: Test Table
-  items:
-  - {fileID: 11400000, guid: a99059ec3ab37084ba0010ccb2ada534, type: 2}
-  - {fileID: 11400000, guid: 185d8c84a76ab434f9b424ff13a90183, type: 2}
+  itemName: 
+  description: 
+  maxStackSize: 32
+  sprite: {fileID: 0}
+  stackedSprite: {fileID: 0}

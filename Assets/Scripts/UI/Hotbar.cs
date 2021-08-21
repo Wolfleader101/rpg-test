@@ -40,6 +40,7 @@ public class Hotbar : MonoBehaviour
     
     private void AddItem(BaseItem item, int itemCount)
     {
+        //Debug.Log(item);
         // list of hotbar slots
         var hotbarItems = gameObject.GetComponentsInChildren<HotbarItem>().ToList();
         
@@ -53,10 +54,10 @@ public class Hotbar : MonoBehaviour
 
                 return;
             }
-
-            // if slots item is not current item AND if its already at max cap
-            if (button.currentItem != item && button.itemCount >= button.currentItem.MaxStackSize) continue;
-
+            
+            // if slots item is not current item OR if its already at max cap
+            if (button.currentItem != item || button.itemCount >= button.currentItem.MaxStackSize) continue;
+            
             var incrementRem = button.IncrementCount(itemCount);
             if (incrementRem == 0)
             {

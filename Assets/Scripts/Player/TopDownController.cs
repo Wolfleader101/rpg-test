@@ -111,6 +111,7 @@ public class TopDownController : MonoBehaviour
                 StartCoroutine(Dash());
                 break;
         }
+        
     }
 
     private IEnumerator Dash()

@@ -6609,11 +6609,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 589841425052403273, guid: f484a348df6e4064da5fb13627601469, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -2.65
+      value: -3.65
       objectReference: {fileID: 0}
     - target: {fileID: 589841425052403273, guid: f484a348df6e4064da5fb13627601469, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.14
+      value: -1.4
       objectReference: {fileID: 0}
     - target: {fileID: 589841425052403273, guid: f484a348df6e4064da5fb13627601469, type: 3}
       propertyPath: m_LocalPosition.z
@@ -6647,6 +6647,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3962839729643332122, guid: f484a348df6e4064da5fb13627601469, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4951674745748856253, guid: f484a348df6e4064da5fb13627601469, type: 3}
+      propertyPath: lootTable
+      value: 
+      objectReference: {fileID: 11400000, guid: ccf2ac40d21ebfb45a03bef216d34162, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f484a348df6e4064da5fb13627601469, type: 3}
 --- !u!1001 &2306197899336054080
